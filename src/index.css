@@ -1,0 +1,25 @@
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	outline: none;
+	border: none;
+	text-decoration: none;
+	color: inherit;
+}
+
+:root{
+	--clr-white: #f8f8f8;
+	--clr-black: #0c0c0c;
+	--clr-gray: #313131;
+	--clr-accent1: #6633cc;
+	--clr-accent2: #00FFFF;
+	font-size: 10px;
+}
+
+body{
+	width: 100vw;
+	min-height: 100vh;
+}
