@@ -1,22 +1,57 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState } from 'react';
+import { getUser, googleAuth, facebookAuth, normalAuth, signout } from '../Firebase/Auth';
 
-const AuthContext = createContext()
+const AuthContext = createContext();
 
-const AuthContextProvider = ({children}) => {
-    const [user, setUser] = useState(null)
+const AuthContextProvider = ({ children }) => {
+	const [user, setUser] = useState(null);
+	const [loading, setLoading] = useState(true);
 
-    return(
-        <AuthContext.Provider value = {{user}}>
-            {children}
-        </AuthContext.Provider>
-    )
-}
+	const login = async (type, email, password) => {
+		if (type === 'GOOGLE') {
+			const user = await googleAuth();
+		} else if (type === 'FACEBOOK') {
+			const user = await facebookAuth();
+		} else if (type === 'NORMAL') {
+			const user = await normalAuth('LOGIN', email, password);
+		} else {
+			console.log(`Unknown login method`);
+		}
+	};
 
-export default AuthContextProvider
-export const useAuthContext = () => {
-    if(AuthContext) return useContext(AuthContext)
-    else {
-        console.log("Auth Context Not Available")
-        return null
+	const signup = async (email, password) => {
+		const user = await normalAuth('SIGNUP', email, password);
+	};
+
+    const signOut = () => {
+        signout()
     }
+
+	useState(() => {
+        const unsubListener = getUser((user) => {
+            setLoading(true)
+            setUser(user)
+            console.log('changed')
+            setLoading(false)
+        })
+
+        return () => {
+            unsubListener()
+        }
+	}, []);
+
+	return (
+		<AuthContext.Provider value={{ user, login, signup, signOut }}>
+			{loading ? null : children}
+		</AuthContext.Provider>
+	);
+};
+
+export default AuthContextProvider;
+export const useAuthContext = () => {
+	if (AuthContext) return useContext(AuthContext);
+	else {
+		console.log('Auth Context Not Available');
+		return null;
+	}
 };

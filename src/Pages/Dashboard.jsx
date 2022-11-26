@@ -1,8 +1,10 @@
-
+import { useAuthContext } from "../Context/AuthContext"
 
 const Dashboard = () => {
+    const {signOut} = useAuthContext()
+
     return(
-        <h1>Dashboard</h1>
+        <h1 onClick={signOut}>Dashboard</h1>
     )
 }
 
