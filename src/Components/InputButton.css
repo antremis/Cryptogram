@@ -1,0 +1,33 @@
+.input-wrapper{
+    position: relative;
+}
+
+[data-input]{
+    background-color: transparent;
+    border-bottom: 1px solid var(--clr-white);
+    padding-bottom: 1rem;
+    font-size: 1.6rem;
+    width: 100%;
+}
+
+[data-label-focused]{
+    position: absolute;
+    inset: 0;
+    font-size: 1.6rem;
+    padding-bottom: 1rem;
+    pointer-events: none;
+    transform-origin: left;
+    transition: 0.1s transform linear;
+    -webkit-transition: 0.1s transform linear;
+    -moz-transition: 0.1s transform linear;
+    -ms-transition: 0.1s transform linear;
+    -o-transition: 0.1s transform linear;
+}
+
+[data-label-focused=true]{
+    transform: translateY(-90%) scale(0.9);
+    -webkit-transform: translateY(-90%) scale(0.9);
+    -moz-transform: translateY(-90%) scale(0.9);
+    -ms-transform: translateY(-90%) scale(0.9);
+    -o-transform: translateY(-90%) scale(0.9);
+}

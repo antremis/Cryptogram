@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from 'react';
+import { notify } from '../Components/Alert';
 import { getUser, googleAuth, facebookAuth, normalAuth, signout } from '../Firebase/Auth';
 
 const AuthContext = createContext();
@@ -15,7 +16,7 @@ const AuthContextProvider = ({ children }) => {
 		} else if (type === 'NORMAL') {
 			const user = await normalAuth('LOGIN', email, password);
 		} else {
-			console.log(`Unknown login method`);
+			notify({alert:`Unknown login method`, type:'error'});
 		}
 	};
 
@@ -31,7 +32,6 @@ const AuthContextProvider = ({ children }) => {
         const unsubListener = getUser((user) => {
             setLoading(true)
             setUser(user)
-            console.log('changed')
             setLoading(false)
         })
 

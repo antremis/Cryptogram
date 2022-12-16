@@ -16,8 +16,8 @@
 	--clr-white: #f8f8f8;
 	--clr-black: #0c0c0c;
 	--clr-gray: #313131;
-	--clr-accent1: #6633cc;
-	--clr-accent2: #00FFFF;
+	--clr-accent-primary: #6633cc;
+	--clr-accent-secondary: #00FFFF;
 	font-size: 10px;
 }
 

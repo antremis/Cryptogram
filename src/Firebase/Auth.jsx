@@ -7,6 +7,7 @@ import {
 	signInWithEmailAndPassword,
 	signOut,
 } from 'firebase/auth';
+import { notify } from '../Components/Alert';
 import { AUTH } from './Firebase';
 
 AUTH.useDeviceLanguage();
@@ -14,32 +15,34 @@ const googleProvider = new GoogleAuthProvider();
 const facebookProvider = new FacebookAuthProvider();
 
 const normalAuth = async (ACTION, email, password) => {
-	if (ACTION === 'LOGIN') {
-		try {
+	try{
+		if (ACTION === 'LOGIN') {
 			const Cred = await signInWithEmailAndPassword(
 				AUTH,
 				email,
 				password
 			);
 			return Cred.user;
-		} catch (error) {
-			console.log(error.message);
-			return null;
-		}
-	} else if (ACTION === 'SIGNUP') {
-		try {
+		} else if (ACTION === 'SIGNUP') {
 			const Cred = await createUserWithEmailAndPassword(
 				AUTH,
 				email,
 				password
 			);
 			return Cred.user;
-		} catch (error) {
-			console.log(error.message);
-			return null;
+		} else {
+			throw 'Invalid action provided'
 		}
-	} else {
-		console.log('Invalid action provided');
+	}
+	catch (error) {
+		if (error.code === 'auth/account-exists-with-different-credential') {
+			notify({
+				alert:`${error.email} is already linked to a different account`,
+				type: 'error'
+			});
+		} else {
+			notify({alert:error.message, type:'error'});
+		}
 		return null;
 	}
 };
@@ -50,11 +53,12 @@ const googleAuth = async () => {
 		return result.user;
 	} catch (error) {
 		if (error.code === 'auth/account-exists-with-different-credential') {
-			console.log(
-				`${error.email} is already linked to a different account`
-			);
+			notify({
+				alert:`${error.email} is already linked to a different account`,
+				type: 'error'
+			});
 		} else {
-			console.log(error.message);
+			notify({alert:error.message, type:'error'});
 		}
 		return null;
 	}
@@ -66,11 +70,12 @@ const facebookAuth = async () => {
 		return result.user;
 	} catch (error) {
 		if (error.code === 'auth/account-exists-with-different-credential') {
-			console.log(
-				`${error.email} is already linked to a different account`
-			);
+			notify({
+				alert:`${error.email} is already linked to a different account`,
+				type: 'error'
+			});
 		} else {
-			console.log(error.message);
+			notify({alert:error.message, type:'error'});
 		}
 		return null;
 	}
@@ -80,7 +85,7 @@ const signout = async () => {
 	try {
 		await signOut(AUTH);
 	} catch (err) {
-		console.log('some error occured');
+		notify({alert:'some error occured', type:'error'});
 	}
 };
 

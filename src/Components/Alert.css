@@ -1,0 +1,60 @@
+.alert {
+	padding: 1.2rem 2rem;
+	display: flex;
+	gap: 1.5rem;
+	font-size: 1.4rem;
+	max-width: 40ch;
+	animation: fade-in-out 2s linear;
+	-webkit-animation: fade-in-out 3s linear;
+	border-radius: 0.5rem;
+	-webkit-border-radius: 0.5rem;
+	-moz-border-radius: 0.5rem;
+	-ms-border-radius: 0.5rem;
+	-o-border-radius: 0.5rem;
+}
+
+@keyframes fade-in-out {
+	0% {
+		opacity: 0;
+	}
+	10% {
+		opacity: 1;
+	}
+	90% {
+		opacity: 1;
+	}
+    100%{
+        opacity: 0;
+	}
+}
+
+.alert.error {
+	background-color: red;
+	color: var(--clr-white);
+}
+
+.alert.info {
+	background-color: var(--clr-accent-primary);
+	color: var(--clr-white);
+}
+
+.alert.tacky {
+	background-color: var(--clr-accent-secondary);
+	color: var(--clr-black);
+}
+
+.alert .more-info,
+.alert .close {
+	cursor: pointer;
+}
+
+.alerts-wrapper {
+	position: absolute;
+	top: 2rem;
+	right: 8rem;
+	z-index: 10;
+	isolation: isolate;
+	display: flex;
+	flex-direction: column-reverse;
+	gap: 1rem;
+}

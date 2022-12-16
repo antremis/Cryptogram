@@ -4,6 +4,7 @@ import LOGO from '../assets/logo_nobg.png'
 import GOOGLE from '../assets/google.png'
 import FACEBOOK from '../assets/facebook.png'
 import {useAuthContext} from '../Context/AuthContext'
+import InputButton from '../Components/InputButton'
 
 const Login = () => {
     const main = useRef(null)
@@ -21,14 +22,17 @@ const Login = () => {
 
     return(
         <main className="auth">
-            <div className='auth-wrapper' data-flip = 'false' ref={main}>
+            <div className='auth-wrapper' data-flip = {false} ref={main}>
                 
                 <div className = "login">
                     <img src={LOGO} alt="Logo"/>
                     <form onSubmit={handleLogin}>
-                        <input type='text' placeholder='Username' name = 'username'></input>
-                        <input type='text' placeholder='Password' name = 'password'></input>
-                        <button title='login' type='submit'>Login</button>
+                        <InputButton placeholder='Username' name='username' />
+                        <InputButton placeholder='Password' name='password' />
+                        <div className='btn-wrapper'>
+                            <button type='submit'>Login</button>
+                            <p onClick={()=>{main.current.dataset.flip = true}}>Don't have an account? <span className='auth-toggler'>Signup now!</span></p>
+                        </div>
                     </form>
                     <div>
                         <span>OR</span>
@@ -36,16 +40,21 @@ const Login = () => {
                             <img src={GOOGLE} alt="google" onClick = {() => {login('GOOGLE')}} />
                             <img src={FACEBOOK} alt="facebook" onClick = {() => {login('FACEBOOK')}} />
                         </div>
-                        <p onClick={()=>{main.current.dataset.flip = true}}>Cryptogram Inc</p>
+                        <p>Cryptogram Inc</p>
                     </div>
                 </div>
             
                 <div className = "signup">
                     <img src={LOGO} alt="Logo"/>
                     <form onSubmit={handleSignup}>
-                        <input type='text' placeholder='Username' name = 'username'></input>
-                        <input type='text' placeholder='Password' name = 'password'></input>
-                        <button title='login' type='submit'>Signup</button>
+                        <InputButton placeholder='Full Name' name='fulname' />
+                        <InputButton placeholder='Username' name='username' />
+                        <InputButton placeholder='Password' name='password' />
+                        <InputButton placeholder='Retype Password' name='' />
+                        <div className='btn-wrapper'>
+                            <button type='submit'>Signup</button>
+                            <p onClick={()=>{main.current.dataset.flip = false}}>Already have an account? <span className='auth-toggler'>Login!</span></p>
+                        </div>
                     </form>
                     <div>
                         <span>OR</span>
@@ -53,7 +62,7 @@ const Login = () => {
                             <img src={GOOGLE} alt="google" onClick = {() => {login('GOOGLE')}} />
                             <img src={FACEBOOK} alt="facebook" onClick = {() => {login('FACEBOOK')}} />
                         </div>
-                        <p onClick={()=>{main.current.dataset.flip = false}}>Cryptogram Inc</p>
+                        <p>Cryptogram Inc</p>
                     </div>
                 </div>
 

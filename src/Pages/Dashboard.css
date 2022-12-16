@@ -1,0 +1,65 @@
+.dashboard {
+	background-color: var(--clr-black);
+	/* background-image: url('../assets/login-bg.jpg');
+    background-size: cover; */
+	width: 100vw;
+	height: 100vh;
+	display: grid;
+	grid-template-columns: 13rem 1fr 13rem;
+	grid-template-areas: 'leftnav content rightnav';
+	padding: 3rem 0 5rem;
+}
+
+.leftnav {
+	grid-area: leftnav;
+}
+
+.leftnav,
+.rightnav {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem;
+}
+
+.rightnav {
+	grid-area: rightnav;
+}
+
+.rightnav > nav {
+	display: flex;
+	flex-direction: column;
+	gap: 3rem;
+}
+
+.content {
+	grid-area: content;
+	display: flex;
+	flex-direction: column;
+	gap: 5rem;
+	overflow: auto;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+    border-radius: 2rem;
+	-webkit-border-radius: 2rem;
+	-moz-border-radius: 2rem;
+	-ms-border-radius: 2rem;
+	-o-border-radius: 2rem;
+}
+
+.content::-webkit-scrollbar {
+	display: none;
+}
+
+.content .post-wrapper {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-areas: 'row1 row2';
+	background: linear-gradient(var(--clr-gray), transparent);
+	border-radius: 2rem;
+	-webkit-border-radius: 2rem;
+	-moz-border-radius: 2rem;
+	-ms-border-radius: 2rem;
+	-o-border-radius: 2rem;
+}
