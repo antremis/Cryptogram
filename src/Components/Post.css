@@ -1,20 +1,97 @@
+[data-post-wrapper]{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+[data-post]::before{
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 1px;
+    height: 45vh;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    background-color: var(--clr-white)
+}
+
 [data-post]{
     grid-area: row1;
-    padding: 2rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
     color: var(--clr-white);
-    border-right: 1px solid white;
+    gap: 1.5rem;
+    padding: 0 3rem;
+    margin: auto;
 }
 
+[data-post] .post-likes-wrapper,
 [data-post] .post-handle-wrapper{
     display: flex;
     justify-content: space-between;
-    flex: 1;
+    align-items: center;
+    /* padding: 0 0.5rem 0 0; */
+    padding: 0 0.5rem;
+}
+
+[data-post] .post-handle-wrapper{
+    gap: 0.5rem;
+}
+
+[data-post] .post-handle-wrapper > .profileimg {
+    width: 4rem;
+}
+
+[data-post] .post-handle-wrapper > .post-handle{
+    width: 100%;
+    text-align: left;
+} 
+
+[data-post] .post-handle-wrapper > .post-handle > span{
+    font-size: 2rem;
+    font-weight: 500;
+} 
+
+[data-post] .post-handle-wrapper > .post-handle > p{
+    font-size: 1rem;
+    font-style: italic;
+    opacity: 0.7;
+}
+
+[data-post] .post-handle-wrapper > .favorite {
+    width: 2.5rem;
 }
 
 [data-post] > img{
-    width: 300px;
+    width: 60vh;
+}
+
+[data-post] .post-likes-wrapper > p {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+[data-post] .post-likes-wrapper > .post-likes-btns {
+    display: flex;
+    gap: 2rem;
+}
+
+[data-post] .post-likes-wrapper > .post-likes-btns > img {
+    width: 2.5rem;
+}
+
+[data-post] .post-caption{
+    width: 60vh;
+    text-overflow: wrap;
+    font-size: 1.3rem;
+}
+
+[data-post] .post-caption > span{
+    font-weight: 500;
 }

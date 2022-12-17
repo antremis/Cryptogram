@@ -1,0 +1,77 @@
+.comments{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 60vh;
+    padding: 0 3rem;
+    margin: 0 auto;
+    font-size: 1.3rem;
+}
+
+.comments-wrapper{
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    gap: 3rem;
+}
+
+.comment{
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.comment > img{
+    width: 2.5rem;
+}
+
+.comment-content-wrapper{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.comment-content{
+    display: flex;
+    line-height: 2.5ch;
+}
+
+.comment-content > .comment-handle{
+    font-weight: 500;
+}
+
+.comment-info{
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    align-items: flex-end;
+    font-size: 1rem;
+    flex: 1;
+}
+
+.comment-info > span{
+    opacity: 0.7;
+}
+
+.comment-reply-btn,
+.comment-likes{
+    font-weight: 500;
+}
+
+.comment-reply-btn,
+.comment-showmore-btn,
+.comment-like-btn{
+    cursor: pointer;
+}
+
+.comment-showmore-btn{
+    font-style: italic;
+    opacity: 0.7;
+}
+
+.comment-like-btn{
+    flex: 1;
+    text-align: right;
+    opacity: 0.7;
+}

@@ -5,9 +5,11 @@
 	width: 100vw;
 	height: 100vh;
 	display: grid;
-	grid-template-columns: 13rem 1fr 13rem;
+	grid-template-columns: 15rem 1fr 15rem;
 	grid-template-areas: 'leftnav content rightnav';
-	padding: 3rem 0 5rem;
+	/* padding: 3rem 0 5rem; */
+	padding: 3rem 0;
+	/* gap: 5rem; */
 }
 
 .leftnav {
@@ -62,4 +64,5 @@
 	-moz-border-radius: 2rem;
 	-ms-border-radius: 2rem;
 	-o-border-radius: 2rem;
+	padding: 3rem 0;
 }

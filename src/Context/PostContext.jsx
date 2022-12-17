@@ -10,23 +10,35 @@ const PostContextProvider = ({children}) => {
             id: uuid(), 
             displayName: "Yatin Bajaj",
             handle: 'yatinOP69',
+            profilepic: '/src/assets/profile.png',
             imgsrc: '/src/assets/stockimg.png',
             likes: 2814,
             caption: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio soluta adipisci quidem nostrum reiciendis quisquam fuga corporis, voluptas vero tempore?',
             comments: [
                 {
+                    id: uuid(),
                     handle: 'admin',
+                    profilepic: '/src/assets/profile.png',
                     comment: 'Lorem ipsum dolor sit amet.',
                     replies: [
                         {
+                            id: uuid(),
+                            handle: 'admin',
+                            profilepic: '/src/assets/profile.png',
                             reply: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, odio?',
                             likes: 0,
                         },
                         {
+                            id: uuid(),
+                            handle: 'admin',
+                            profilepic: '/src/assets/profile.png',
                             reply: 'Lorem ipsum dolor sit amet.',
                             likes: 0,
                         },
                         {
+                            id: uuid(),
+                            handle: 'admin',
+                            profilepic: '/src/assets/profile.png',
                             reply: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ea nobis numquam omnis ex dolorum alias laborum neque enim, labore iste?',
                             likes: 0,
                         },
@@ -34,10 +46,15 @@ const PostContextProvider = ({children}) => {
                     likes: 0,
                 },
                 {
+                    id: uuid(),
                     handle: 'admin',
+                    profilepic: '/src/assets/profile.png',
                     comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, porro!',
                     replies: [
                         {
+                            id: uuid(),
+                            handle: 'admin',
+                            profilepic: '/src/assets/profile.png',
                             reply: 'Lorem ipsum dolor sit amet.',
                             likes: 0,
                         }
@@ -45,21 +62,23 @@ const PostContextProvider = ({children}) => {
                     likes: 0,
                 },
                 {
+                    id: uuid(),
                     handle: 'admin',
+                    profilepic: '/src/assets/profile.png',
                     comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores nisi quos velit adipisci. Repellat consectetur doloribus sunt quaerat odit qui?',
-                    replies: [
-                        {
-                            reply: 'Lorem ipsum dolor sit amet.',
-                            likes: 0,
-                        }
-                    ],
+                    replies: [],
                     likes: 0,
                 },
                 {
+                    id: uuid(),
                     handle: 'admin',
+                    profilepic: '/src/assets/profile.png',
                     comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, vel quidem! Possimus et sapiente voluptate?',
                     replies: [
                         {
+                            id: uuid(),
+                            handle: 'admin',
+                            profilepic: '/src/assets/profile.png',
                             reply: 'Lorem ipsum dolor sit amet.',
                             likes: 0,
                         }
@@ -67,160 +86,11 @@ const PostContextProvider = ({children}) => {
                     likes: 0,
                 },
                 {
+                    id: uuid(),
                     handle: 'admin',
+                    profilepic: '/src/assets/profile.png',
                     comment: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reprehenderit temporibus odio quos provident expedita rem, atque odit dolores unde alias totam dignissimos cumque eius id aliquid omnis aperiam placeat quibusdam in rerum officiis! Obcaecati, sapiente.',
-                    replies: [
-                        {
-                            reply: 'Lorem ipsum dolor sit amet.',
-                            likes: 0,
-                        }
-                    ],
-                    likes: 0,
-                },
-            ]
-        },
-        {
-            id: uuid(),
-            displayName: "Yatin Bajaj",
-            handle: 'yatinOP69',
-            imgsrc: '/src/assets/stockimg.png',
-            likes: 2814,
-            caption: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio soluta adipisci quidem nostrum reiciendis quisquam fuga corporis, voluptas vero tempore?',
-            comments: [
-                {
-                    handle: 'admin',
-                    comment: 'Lorem ipsum dolor sit amet.',
-                    replies: [
-                        {
-                            reply: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, odio?',
-                            likes: 0,
-                        },
-                        {
-                            reply: 'Lorem ipsum dolor sit amet.',
-                            likes: 0,
-                        },
-                        {
-                            reply: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ea nobis numquam omnis ex dolorum alias laborum neque enim, labore iste?',
-                            likes: 0,
-                        },
-                    ],
-                    likes: 0,
-                },
-                {
-                    handle: 'admin',
-                    comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, porro!',
-                    replies: [
-                        {
-                            reply: 'Lorem ipsum dolor sit amet.',
-                            likes: 0,
-                        }
-                    ],
-                    likes: 0,
-                },
-                {
-                    handle: 'admin',
-                    comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores nisi quos velit adipisci. Repellat consectetur doloribus sunt quaerat odit qui?',
-                    replies: [
-                        {
-                            reply: 'Lorem ipsum dolor sit amet.',
-                            likes: 0,
-                        }
-                    ],
-                    likes: 0,
-                },
-                {
-                    handle: 'admin',
-                    comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, vel quidem! Possimus et sapiente voluptate?',
-                    replies: [
-                        {
-                            reply: 'Lorem ipsum dolor sit amet.',
-                            likes: 0,
-                        }
-                    ],
-                    likes: 0,
-                },
-                {
-                    handle: 'admin',
-                    comment: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reprehenderit temporibus odio quos provident expedita rem, atque odit dolores unde alias totam dignissimos cumque eius id aliquid omnis aperiam placeat quibusdam in rerum officiis! Obcaecati, sapiente.',
-                    replies: [
-                        {
-                            reply: 'Lorem ipsum dolor sit amet.',
-                            likes: 0,
-                        }
-                    ],
-                    likes: 0,
-                },
-            ]
-        },
-        {
-            id: uuid(),
-            displayName: "Yatin Bajaj",
-            handle: 'yatinOP69',
-            imgsrc: '/src/assets/stockimg.png',
-            likes: 2814,
-            caption: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio soluta adipisci quidem nostrum reiciendis quisquam fuga corporis, voluptas vero tempore?',
-            comments: [
-                {
-                    handle: 'admin',
-                    comment: 'Lorem ipsum dolor sit amet.',
-                    replies: [
-                        {
-                            reply: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, odio?',
-                            likes: 0,
-                        },
-                        {
-                            reply: 'Lorem ipsum dolor sit amet.',
-                            likes: 0,
-                        },
-                        {
-                            reply: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ea nobis numquam omnis ex dolorum alias laborum neque enim, labore iste?',
-                            likes: 0,
-                        },
-                    ],
-                    likes: 0,
-                },
-                {
-                    handle: 'admin',
-                    comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, porro!',
-                    replies: [
-                        {
-                            reply: 'Lorem ipsum dolor sit amet.',
-                            likes: 0,
-                        }
-                    ],
-                    likes: 0,
-                },
-                {
-                    handle: 'admin',
-                    comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores nisi quos velit adipisci. Repellat consectetur doloribus sunt quaerat odit qui?',
-                    replies: [
-                        {
-                            reply: 'Lorem ipsum dolor sit amet.',
-                            likes: 0,
-                        }
-                    ],
-                    likes: 0,
-                },
-                {
-                    handle: 'admin',
-                    comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, vel quidem! Possimus et sapiente voluptate?',
-                    replies: [
-                        {
-                            reply: 'Lorem ipsum dolor sit amet.',
-                            likes: 0,
-                        }
-                    ],
-                    likes: 0,
-                },
-                {
-                    handle: 'admin',
-                    comment: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reprehenderit temporibus odio quos provident expedita rem, atque odit dolores unde alias totam dignissimos cumque eius id aliquid omnis aperiam placeat quibusdam in rerum officiis! Obcaecati, sapiente.',
-                    replies: [
-                        {
-                            reply: 'Lorem ipsum dolor sit amet.',
-                            likes: 0,
-                        }
-                    ],
+                    replies: [],
                     likes: 0,
                 },
             ]
