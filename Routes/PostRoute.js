@@ -7,7 +7,7 @@ const {
 
 router.route('/')
     .get(getPosts)
-    .post(makePost)
+    .put(makePost)
 router.route('/:id')
     .get(getPost)
 

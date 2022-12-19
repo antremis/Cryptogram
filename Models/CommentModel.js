@@ -5,7 +5,7 @@ const CommentSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    profilePic: {
+    profilepic: {
         type: String,
         required: true,
     },
@@ -22,6 +22,6 @@ const CommentSchema = new mongoose.Schema({
         type: Number,
         required: true,
     }
-})
+}, {timestamp: true})
 
 module.exports = mongoose.model('Comments', CommentSchema)

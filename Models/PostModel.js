@@ -30,6 +30,6 @@ const PostSchema = new mongoose.Schema({
         ref: 'Comments',
         required: true,
     },
-})
+}, {timestamps: true})
 
 module.exports = mongoose.model('Posts', PostSchema)

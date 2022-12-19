@@ -1,37 +1,36 @@
+const User = require('../Models/UserModel')
 const Post = require('../Models/PostModel')
 
 const makePost = async (req, res) => {
-    const imgsrc = 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg'
-    const profilePic = 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg'
-    const handle = req.body.handle
-    const displayName = req.body.displayName
-    const caption = req.body.caption
-    if(!handle) res.status(400).json({mssg: 'Handle Missing'})
-    if(!displayName) res.status(400).json({mssg: 'Display Name Missing'})
-    if(!caption) res.status(400).json({mssg: 'Caption Missing'})
+    const imgsrc = 'https://i.postimg.cc/GtN913JX/stockimg.png'
+    const {uid, handle, displayName, caption, profilepic} = req.body
+    if(!uid) return res.status(400).json({mssg: 'UID Missing'})
+    if(!caption) return res.status(400).json({mssg: 'Caption Missing'})
 
     try{
+        let user = await User.findById(uid)
         const newPost = await Post.create({
             imgsrc,
-            profilePic,
-            handle,
-            displayName,
+            profilepic: user.profilepic,
+            handle: user.handle,
+            displayName: user.displayName,
             caption,
             likes: 0,
             comments: []
         })
+        user.posts = [newPost._id, ...user.posts]
+        user.save()
+        return res.json({mssg: 'Success', data: {id: newPost._id, imgsrc}})
     }
     catch(error){
         console.log(error)
         res.status(400).json({mssg: error.message})
     }
-
-    res.json({mssg: 'Success'})
 }
 
 const getPosts = async (req, res) => {
     try{
-        const posts = await Post.find({}).populate('comments')
+        const posts = await Post.find({}).populate('comments').sort({createdAt: -1})
         res.json({mssg: 'Success', data: posts})
     }
     catch(error){

@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const PostRoute = require('./Routes/PostRoute')
 const CommentRoute = require('./Routes/CommentRoute')
+const UserRoute = require('./Routes/UserRoute')
 require('dotenv').config()
 
 const app = express()
@@ -16,6 +17,7 @@ app.use((req, res, next) => {
 
 app.use('/api/post', PostRoute)
 app.use('/api/comment', CommentRoute)
+app.use('/api/user', UserRoute)
 
 const run = async () => {
     try{
