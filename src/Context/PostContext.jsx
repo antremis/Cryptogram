@@ -113,7 +113,7 @@ const PostContextProvider = ({children}) => {
         axios
             .put(`${baseurl}/api/post`, post)
             .then(data => {
-                post.id = data.data.data.id,
+                post._id = data.data.data.id,
                 post.handle = profile.handle,
                 post.displayName = profile.displayName,
                 post.profilepic = profile.profilepic,
