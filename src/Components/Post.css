@@ -5,30 +5,19 @@
     position: relative;
 }
 
-[data-post]::before{
-    content: '';
-    position: absolute;
-    top: 50%;
-    right: 0;
-    width: 1px;
-    height: 45vh;
-    transform: translateY(-50%);
-    -webkit-transform: translateY(-50%);
-    -moz-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    -o-transform: translateY(-50%);
-    background-color: var(--clr-white)
-}
-
 [data-post]{
     grid-area: row1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     color: var(--clr-white);
-    gap: 1.5rem;
-    padding: 0 3rem;
+    gap: 2rem;
     margin: auto;
+    width: 60vh;
+}
+
+[data-post]#add-post-wrapper {
+    width: 40vh;
 }
 
 [data-post] .post-likes-wrapper,
@@ -72,6 +61,42 @@
     width: 60vh;
 }
 
+[data-post] img#add-post{
+	width: 40vh;
+}
+
+[data-post] input#fileupload{
+    display: none;
+}
+
+[data-post] textarea#add-post-caption{
+    resize: none;
+    background-color: var(--clr-gray);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    -webkit-border-radius: 0.5rem;
+    -moz-border-radius: 0.5rem;
+    -ms-border-radius: 0.5rem;
+    -o-border-radius: 0.5rem;
+    overflow: auto;
+    height: 6rem;
+}
+
+[data-post] div#add-post-submit{
+    background: linear-gradient(to right, var(--clr-accent-primary), var(--clr-accent-secondary));
+    width: fit-content;
+    align-self: flex-end;
+    padding: 0.8rem 3rem;
+    font-weight: 800;
+    font-size: 1.4rem;
+    cursor: pointer;
+    border-radius: 1rem;
+    -webkit-border-radius: 1rem;
+    -moz-border-radius: 1rem;
+    -ms-border-radius: 1rem;
+    -o-border-radius: 1rem;
+}
+
 [data-post] .post-likes-wrapper > p {
     font-size: 1.2rem;
     font-weight: 600;
@@ -84,14 +109,4 @@
 
 [data-post] .post-likes-wrapper > .post-likes-btns > img {
     width: 2.5rem;
-}
-
-[data-post] .post-caption{
-    width: 60vh;
-    text-overflow: wrap;
-    font-size: 1.3rem;
-}
-
-[data-post] .post-caption > span{
-    font-weight: 500;
 }

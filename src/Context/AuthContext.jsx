@@ -10,18 +10,18 @@ const AuthContextProvider = ({ children }) => {
 
 	const login = async (type, email, password) => {
 		if (type === 'GOOGLE') {
-			const user = await googleAuth();
+			googleAuth();
 		} else if (type === 'FACEBOOK') {
-			const user = await facebookAuth();
+			facebookAuth();
 		} else if (type === 'NORMAL') {
-			const user = await normalAuth('LOGIN', email, password);
+			normalAuth('LOGIN', email, password);
 		} else {
 			notify({alert:`Unknown login method`, type:'error'});
 		}
 	};
 
 	const signup = async (email, password) => {
-		const user = await normalAuth('SIGNUP', email, password);
+		await normalAuth('SIGNUP', email, password);
 	};
 
     const signOut = () => {

@@ -1,0 +1,10 @@
+.comment-content{
+    text-overflow: wrap;
+    line-height: 2.5ch;
+    font-size: 1.4rem;
+}
+
+.comment-content > span{
+    font-weight: 500;
+    margin-right: 1rem;
+}

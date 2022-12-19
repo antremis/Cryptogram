@@ -2,16 +2,13 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 60vh;
-    padding: 0 3rem;
     margin: 0 auto;
-    font-size: 1.3rem;
 }
 
 .comments-wrapper{
     display: flex;
     flex-direction: column;
-    /* justify-content: space-between; */
+    justify-content: space-between;
     gap: 3rem;
 }
 
@@ -19,7 +16,7 @@
     display: flex;
     gap: 1rem;
     align-items: flex-start;
-    width: 100%;
+    width: 60vh;
 }
 
 .comment > img{
@@ -30,15 +27,6 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-}
-
-.comment-content{
-    display: flex;
-    line-height: 2.5ch;
-}
-
-.comment-content > .comment-handle{
-    font-weight: 500;
 }
 
 .comment-info{
@@ -74,4 +62,39 @@
     flex: 1;
     text-align: right;
     opacity: 0.7;
+}
+
+.make-comment{
+    padding: 1rem 2.5rem;
+    background-color: var(--clr-white);
+    border-radius: 100vw;
+    -webkit-border-radius: 100vw;
+    -moz-border-radius: 100vw;
+    -ms-border-radius: 100vw;
+    -o-border-radius: 100vw;
+    display: flex;
+    justify-content: space-between;
+    width: 60vh;
+}
+
+.make-comment > input{
+    font-size: 1.4rem;
+    color: var(--clr-black);
+    background-color: transparent;
+    width: 100%;
+}
+
+.make-comment > input::placeholder{
+    opacity: 0.7;
+}
+
+.make-comment > img {
+    width: 2.5em;
+    cursor: pointer;
+}
+
+.no-comments{
+    font-size: 2.2rem;
+    letter-spacing: 0.2rem;
+    margin: 5rem auto 0;
 }
