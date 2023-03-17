@@ -9,23 +9,22 @@ import Explore from "../Pages/Explore";
 
 export const RootRouter = () => {
     const {user} = useAuthContext()
-
+    
 	return (
         <BrowserRouter>
             {
                 user
-                ?(<Routes>
+                ? (<Routes>
                     <Route exact path="/" element={<Wrapper Child={Dashboard}/>} />
                     <Route exact path="/app" element={<Wrapper Child={Dashboard}/>} />
                     <Route exact path="/chat" element={<Wrapper Child={Chat}/>} />
                     <Route exact path="/explore/:hashtag" element={<Wrapper Child={Explore}/>} />
                     <Route exact path="/profile/:handle" element={<Wrapper Child={Profile}/>} />
                 </Routes>)
-                :(<Routes>
+                : (<Routes>
                     <Route exact path="*" element={<Login />} />
                 </Routes>)
             }
-            
         </BrowserRouter>
 	);
 };

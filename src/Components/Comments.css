@@ -21,6 +21,12 @@
 
 .comment > img{
     width: 2.5rem;
+    object-fit: contain;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
 }
 
 .comment-content-wrapper{

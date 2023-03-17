@@ -17,7 +17,7 @@ const Dashboard = () => {
         <>
             {posts?.map(post => (
                 <div className='post-wrapper' key={post._id}>
-                    <Post displayName={post?.user.displayName} handle={post?.user.handle} imgsrc={post?.imgsrc} likes={post?.likes} caption={post?.caption}/>
+                    <Post profileimg = {post?. user.profilepic} displayName={post?.user.displayName} handle={post?.user.handle} imgsrc={post?.imgsrc} likes={post?.likes} caption={post?.caption}/>
                     <div className='divider'></div>
                     <Comments comments={post?.comments} postid={post?._id} />
                 </div>

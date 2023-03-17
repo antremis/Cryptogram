@@ -3,13 +3,13 @@ import './Post.css'
 import FAVORITE from '../assets/favorite.png'
 import LIKE from '../assets/like.png'
 import SHARE from '../assets/share.png'
-import ANONYMOUS from '/src/assets/profile.png'
 import CommentContent from './CommentContent'
 import StockImg from '../assets/postStockImg.png'
 import { useRef } from 'react';
 
-const PostContent = ({profileimg, displayName, handle, imgsrc, likes, caption, post}) => {
+const PostContent = ({setData, profileimg, displayName, handle, imgsrc, likes, caption, post}) => {
     const imgref = useRef(null)
+    let data
 
     const handleImgUpload = (e) => {
         const reader = new FileReader();
@@ -17,12 +17,13 @@ const PostContent = ({profileimg, displayName, handle, imgsrc, likes, caption, p
             imgref.current.src = event.target.result
         }
         reader.readAsDataURL(e.target.files[0]);
+        setData(e.target.files[0])
     }
 
     return(
         <>
             <div className='post-handle-wrapper'>
-                <img src={profileimg?profileimg:ANONYMOUS} className='profileimg'/>
+                <img src={profileimg} className='profileimg'/>
                 <div className="post-handle">
                     <span>{displayName}</span>
                     <p>@{handle}</p>
@@ -67,11 +68,16 @@ const PostContent = ({profileimg, displayName, handle, imgsrc, likes, caption, p
 const Post = ({profileimg, displayName, handle, imgsrc, likes, caption, post, closeModal}) => {
 
     const {makePost} = usePostContext()
+    let data
+
+    const setData = (val) => {
+        data = val
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault()
         const caption = e.target.caption.value
-        makePost(caption)
+        makePost(caption, data)
         closeModal()
     }
     
@@ -80,7 +86,7 @@ const Post = ({profileimg, displayName, handle, imgsrc, likes, caption, post, cl
             {
                 post
                 ? <form onSubmit={handleSubmit} data-post id='add-post-wrapper'>
-                    <PostContent profileimg={profileimg} displayName={displayName} handle={handle} imgsrc={imgsrc} likes={likes} caption={caption} post={post}/>
+                    <PostContent setData={setData} profileimg={profileimg} displayName={displayName} handle={handle} imgsrc={imgsrc} likes={likes} caption={caption} post={post}/>
                 </form>
                 : <div data-post-wrapper>
                     <div data-post>

@@ -24,7 +24,7 @@ const Profile = () => {
 
     useEffect(() => {
         (async function(){
-            if(handle == profile.handle) setUserProfile(profile)
+            if(handle == profile?.handle) setUserProfile(profile)
             else {
                 const user_prof = await getUser(handle)
                 setUserProfile(user_prof)
@@ -47,7 +47,7 @@ const Profile = () => {
                             </div>
                             <div className="profile-info-btns">
                                 {
-                                    handle == profile.handle
+                                    handle == profile?.handle
                                     ? <>
                                         <button data-edit='true' >Edit</button>
                                         <img src={FAVORITE} />

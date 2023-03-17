@@ -36,6 +36,12 @@
 
 .user-wrapper img {
     width: 4em;
+    object-fit: contain;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
 }
 
 .user-wrapper .user-name-wrapper{

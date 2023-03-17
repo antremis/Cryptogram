@@ -18,6 +18,12 @@
 
 .profile-info-wrapper > img {
     height: 18rem;
+    object-fit: contain;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
 }
 
 .profile-info{

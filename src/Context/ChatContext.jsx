@@ -87,7 +87,7 @@ const ChatContextProvider = ({children}) => {
 
     return(
         <ChatContext.Provider value={{chats, createChat, getMessages, sendMessage}}>
-            {loading ? null : children}
+            {loading ? <h1>LOADING CHAT</h1> : children}
         </ChatContext.Provider>
     )
 }

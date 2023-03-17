@@ -63,7 +63,7 @@ const UserContextProvider = ({ children }) => {
 
 	return (
 		<UserContext.Provider value={{ profile, getUser, followUser }}>
-			{loading ? null : children}
+			{loading ? <h1>LOADING USER</h1> : children}
 		</UserContext.Provider>
 	);
 };

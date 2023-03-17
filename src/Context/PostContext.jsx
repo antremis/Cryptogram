@@ -10,15 +10,17 @@ const PostContextProvider = ({children}) => {
     const [ posts, setPosts ] = useState([])
     const {user, token} = useAuthContext()
     const {profile} = useUserContext()
-    const [loading, setLoading] = useState(true)
 
-    const makePost = async (caption) => {
+    const makePost = async (caption, data) => {
         const baseurl = import.meta.env.VITE_BACKEND_URL
         let post = {
             caption,
         }
+        const formData = new FormData()
+        formData.append('img', data)
+        formData.append('caption', caption)
         axios
-            .put(`${baseurl}/api/post`, post, {headers: {authorisation: `Bearer ${token}`}})
+            .put(`${baseurl}/api/post`, formData, {headers: {authorisation: `Bearer ${token}`}})
             .then(data => {
                 post._id = data.data.data.id,
                 post.user = {
