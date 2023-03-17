@@ -33,6 +33,7 @@ const getPostsByUser = async (req, res) => {
         const { uid } = req.body
         const { handle } = req.params
         const user = await User.findOne({handle})
+        if(!user) return res.json({mssg: 'Success', data: {posts: [], NFTS: []}})
         const posts = await Post.find({user: user._id}).populate({path: 'comments', populate: {path: 'user'}}).populate('user').sort({createdAt: -1})
         return res.json({mssg: 'Success', data: {posts, NFTS: []}})
     }

@@ -35,7 +35,7 @@ const getUser = async (req, res) => {
         const {uid} = req.body
         const {handle} = req.params
         const user = await User.findOne({handle})
-        if(!user) return res.status(404).json({mssg: 'User not found'})
+        if(!user) return res.status(200).json({mssg: 'User not found', data: {NFTS: 0, displayName: 'No User Found', handle: 'NotFound', posts: 0, profilePic: 'https://i.postimg.cc/GpnxRzT5/profile-user.png', id: 'null', followers: [], following: []}})
         res.status(200).json({mssg: 'success', data: user})
     }
     catch(e){
