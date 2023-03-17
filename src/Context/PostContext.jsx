@@ -7,6 +7,7 @@ import { useAuthContext } from "./AuthContext";
 const PostContext = createContext();
 
 const PostContextProvider = ({children}) => {
+    const [ posts, setPosts ] = useState([])
     const {user, token} = useAuthContext()
     const {profile} = useUserContext()
     const [loading, setLoading] = useState(true)
@@ -105,7 +106,7 @@ const PostContextProvider = ({children}) => {
             let res
             if(!hashtag) res = await axios.get(`${baseurl}/api/post`, {headers:{authorisation: `Bearer ${token}`}})
             res = await axios.get(`${baseurl}/api/post`, {params: {hashtag}, headers:{authorisation: `Bearer ${token}`}})
-            return res.data.data
+            setPosts(res.data.data)
         }
         catch(error){
             notify({
@@ -116,7 +117,7 @@ const PostContextProvider = ({children}) => {
     }
 
     return(
-        <PostContext.Provider value={{ loading, getPostsForUser, getPostsByUser, makePost, makeComment}}>
+        <PostContext.Provider value={{ posts, getPostsForUser, getPostsByUser, makePost, makeComment}}>
             {children}
         </PostContext.Provider>
     )

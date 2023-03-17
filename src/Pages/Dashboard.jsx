@@ -7,15 +7,10 @@ import './Dashboard.css'
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
-    const { getPostsForUser } = usePostContext()
-    const { hashtag } = useParams()
-    const [ posts, setPosts ] = useState([])
+    const { posts, getPostsForUser } = usePostContext()
 
     useEffect(() => {
-        (async function(){
-            const data = await getPostsForUser(hashtag)
-            setPosts(data)
-        })()
+        getPostsForUser()
     }, [])
 
     return(
