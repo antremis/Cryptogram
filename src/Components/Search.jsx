@@ -19,7 +19,6 @@ const Search = ({ closeSearchModal }) => {
             }
             const res = await getUsers(e.target.value)
             setUsers(res)
-            e.target.value = ''
         }, 800)
     }
 
@@ -33,7 +32,7 @@ const Search = ({ closeSearchModal }) => {
                 {
                     users
                     ? users.map((user) => (
-                        <Link to={`/profile/${user.handle}`} key={user.handle} onClick={closeSearchModal} >
+                        <Link to={`/profile/${user.handle}`} key={user.handle} >
                             <img src={user.profilepic}/>
                             <p>{user.handle}</p>
                         </Link>
