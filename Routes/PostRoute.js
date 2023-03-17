@@ -1,14 +1,14 @@
 const router = require('express').Router()
 const {
     makePost,
-    getPosts,
+    getPostsByUser,
+    getPostsForUser,
     getPost,
 } = require('../Controllers/PostController')
 
 router.route('/')
-    .get(getPosts)
+    .get(getPostsForUser)
     .put(makePost)
-router.route('/:id')
-    .get(getPost)
-
+router.route('/:handle')
+    .get(getPostsByUser)
 module.exports = router

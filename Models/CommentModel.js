@@ -1,12 +1,17 @@
 const mongoose = require('mongoose')
 
 const CommentSchema = new mongoose.Schema({
-    handle: {
+    // handle: {
+    //     type: String,
+    //     required: true,
+    // },
+    // profilepic: {
+    //     type: String,
+    //     required: true,
+    // },
+    user: {
         type: String,
-        required: true,
-    },
-    profilepic: {
-        type: String,
+        ref: 'Users',
         required: true,
     },
     comment: {

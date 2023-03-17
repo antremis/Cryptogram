@@ -1,9 +1,11 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
+const fbadmin = require('./config/firebase-config')
 const PostRoute = require('./Routes/PostRoute')
 const CommentRoute = require('./Routes/CommentRoute')
 const UserRoute = require('./Routes/UserRoute')
+const ChatRoute = require('./Routes/ChatRoute')
 require('dotenv').config()
 
 const app = express()
@@ -15,9 +17,23 @@ app.use((req, res, next) => {
     next()
 })
 
+app.use(async (req, res, next) => {
+    try{
+        const USER_TOKEN = req.headers.authorisation.split(" ")[1]
+        const USER = await fbadmin.auth().verifyIdToken(USER_TOKEN)
+        if(!USER) return res.status(400).json({mssg: "Unauthorised"})
+        req.body.uid = USER.uid
+        next()
+    }
+    catch(err){
+        return res.status(400).json({mssg: "Invalid Auth Bearer Provided"})
+    }
+})
+
 app.use('/api/post', PostRoute)
 app.use('/api/comment', CommentRoute)
 app.use('/api/user', UserRoute)
+app.use('/api/chat', ChatRoute)
 
 const run = async () => {
     try{

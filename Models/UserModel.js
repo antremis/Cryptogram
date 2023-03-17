@@ -8,6 +8,7 @@ const UserSchema = new mongoose.Schema({
     handle: {
         type: String,
         required: true,
+        unique: true,
     },
     displayName: {
         type: String,
@@ -17,26 +18,24 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    posts: {
+        type: Number,
+        required: true,
+    },
+    NFTS: {
+        type: Number,
+        required: true,
+    },
     followers: {
-        type: [mongoose.Schema.Types.ObjectId],
+        type: [String],
         ref: 'Users',
         required: true,
     },
     following: {
-        type: [mongoose.Schema.Types.ObjectId],
+        type: [String],
         ref: 'Users',
         required: true,
     },
-    posts: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: 'Posts',
-        required: true,
-    },
-    NFTS: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: 'Posts',
-        required: true,
-    }
-})
+}, {timestamps: true})
 
 module.exports = mongoose.model('Users', UserSchema)

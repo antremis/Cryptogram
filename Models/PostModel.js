@@ -1,21 +1,26 @@
 const mongoose = require('mongoose')
 
 const PostSchema = new mongoose.Schema({
-    displayName: {
+    // displayName: {
+    //     type: String,
+    //     required: true,
+    // },
+    // handle: {
+    //     type: String,
+    //     required: true,
+    // },
+    // profilePic: {
+    //     type: String,
+    //     required: true,
+    // },
+    user: {
         type: String,
+        ref: 'Users',
         required: true,
-    },
-    handle: {
-        type: String,
-        require: true,
-    },
-    profilePic: {
-        type: String,
-        require: true,
     },
     imgsrc: {
         type: String,
-        require: true,
+        required: true,
     },
     likes: {
         type: Number,
@@ -30,6 +35,10 @@ const PostSchema = new mongoose.Schema({
         ref: 'Comments',
         required: true,
     },
+    NFT: {
+        type: Boolean,
+        required: true,
+    }
 }, {timestamps: true})
 
 module.exports = mongoose.model('Posts', PostSchema)
