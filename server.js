@@ -10,6 +10,7 @@ require('dotenv').config()
 
 const app = express()
 app.use(cors())
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 
 app.use((req, res, next) => {
@@ -22,10 +23,11 @@ app.use(async (req, res, next) => {
         const USER_TOKEN = req.headers.authorisation.split(" ")[1]
         const USER = await fbadmin.auth().verifyIdToken(USER_TOKEN)
         if(!USER) return res.status(400).json({mssg: "Unauthorised"})
-        req.body.uid = USER.uid
+        req.user = USER.uid
         next()
     }
     catch(err){
+        console.log(err)
         return res.status(400).json({mssg: "Invalid Auth Bearer Provided"})
     }
 })

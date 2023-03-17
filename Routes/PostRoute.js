@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const upload = require('multer')()
 const {
     makePost,
     getPostsByUser,
@@ -8,7 +9,8 @@ const {
 
 router.route('/')
     .get(getPostsForUser)
-    .put(makePost)
+    // .put(makePost)
+router.put('/', upload.single('img'), makePost)
 router.route('/:handle')
     .get(getPostsByUser)
 module.exports = router

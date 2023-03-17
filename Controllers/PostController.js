@@ -1,15 +1,65 @@
 const User = require('../Models/UserModel')
 const Post = require('../Models/PostModel')
+const admin = require('../config/firebase-config')
+const {v4} = require('uuid')
+
+// const uploadImage = (file) => {
+//     const bucket = admin.storage().bucket();
+
+//     const { originalname, buffer } = file;
+
+//     file = bucket.file(originalname);
+
+//     const stream = file.createWriteStream({
+//         metadata: {
+//             contentType: req.file.mimetype,
+//         },
+//     });
+
+//     stream.on('error', (error) => {
+//         throw new Error(error)
+//     });
+
+//     stream.on('finish', async () => {
+//         const publicUrl = `https://storage.googleapis.com/cryptogram-d1a77/${file.name}`;
+//         console.log(`File uploaded successfully. Public URL: ${publicUrl}`);
+//     });
+
+//     stream.end(buffer);
+// }
+
+const uploadImage = async (file) => {
+    try {
+        const bucket = admin.storage().bucket();
+        const imageBuffer = Buffer.from(file.buffer, "base64");
+        const imageByteArray = new Uint8Array(imageBuffer);
+        const options = {
+          resumable: false,
+          metadata: { contentType: file.mimetype },
+          predefinedAcl: "publicRead",
+          public: true,
+        };
+        const file_path = `img/${file.originalname}-${v4()}`
+        const files = bucket.file(file_path);
+        await files.save(imageByteArray, options);
+        const field = await files.getMetadata();
+        return field[0].mediaLink
+      } catch (e) {
+        throw new Error(e);
+      }
+}
 
 const makePost = async (req, res) => {
-    const imgsrc = 'https://i.postimg.cc/GtN913JX/stockimg.png'
-    const {uid, caption} = req.body
+    const uid = req.user
+    const {caption} = req.body
+    const file = req.file
     if(!uid) return res.status(400).json({mssg: 'UID Missing'})
     if(!caption) return res.status(400).json({mssg: 'Caption Missing'})
 
     try{
         const user = await User.findById(uid)
         if(!user) return res.status(404).json({mssg: 'User Not Found'})
+        const imgsrc = await uploadImage(file)
         const newPost = await Post.create({
             imgsrc,
             user: uid,
@@ -30,7 +80,7 @@ const makePost = async (req, res) => {
 
 const getPostsByUser = async (req, res) => {
     try{
-        const { uid } = req.body
+        const uid = req.user
         const { handle } = req.params
         const user = await User.findOne({handle})
         if(!user) return res.json({mssg: 'Success', data: {posts: [], NFTS: []}})
@@ -45,7 +95,7 @@ const getPostsByUser = async (req, res) => {
 
 const getPostsForUser = async (req, res) => {
     try{
-        const { uid } = req.body
+        const uid = req.user
         const { hashtag } = req.params
         const user = await User.findById(uid)
         let posts

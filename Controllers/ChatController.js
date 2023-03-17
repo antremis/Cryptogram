@@ -4,7 +4,7 @@ const Message = require('../Models/MessageModel')
 
 const getAllChats = async (req, res) => {
     try{
-        const {uid} = req.body
+        const uid = req.user
         const user = await User.findById(uid)
         const chats = await Chat.find({users: {$in: [uid]}}).populate({path: 'users', select: {_id: 0, displayName: 1, profilepic: 1}})
         // const recomended = await User.find({ _id:  {$in: user.following} })
@@ -16,14 +16,14 @@ const getAllChats = async (req, res) => {
 }
 
 const createChat = async (req, res) => {
-    try{mongo
+    try{
         let {users, name, displayPic} = req.body
         users = await Promise.all(users.map(async (u) => {
             const temp = await User.findOne({handle: u})
             return temp._id
         }))
-        users.push(req.body.uid)
-        const user = await User.findById(req.body.uid)
+        users.push(req.user)
+        const user = await User.findById(req.user)
         const chat = await Chat.create({
             users,
             name,
@@ -41,7 +41,8 @@ const createChat = async (req, res) => {
 
 const sendMessage = async (req, res) => {
     try{
-        const {uid, message} = req.body
+        const uid = req.user
+        const { message } = req.body
         const chatId = req.params.id
         const chat = await Chat.findById(chatId);
         if(!chat.users.includes(uid)) return res.status(403).json({mssg: 'Unauthorised'})
@@ -59,7 +60,7 @@ const sendMessage = async (req, res) => {
 
 const getMessages = async (req, res) => {
     try{
-        const {uid} = req.body
+        const uid = req.user
         const chatId = req.params.id
         const chat = await Chat.findById(chatId)
         if(!chat.users.includes(uid)) return res.status(403).json({mssg: 'Unauthorised'})

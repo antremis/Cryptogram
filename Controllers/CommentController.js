@@ -3,7 +3,8 @@ const Post = require('../Models/PostModel')
 const User = require('../Models/UserModel')
 
 const makeComment = async (req, res) => {
-    const {uid, comment} = req.body
+    const uid = req.user
+    const {comment} = req.body
     if(!comment) return res.status(400).json({mssg: 'Comment missing'})
     try{
         const user = await User.findById(uid)
