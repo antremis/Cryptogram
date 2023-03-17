@@ -15,7 +15,8 @@ const makePost = async (req, res) => {
             user: uid,
             caption,
             likes: 0,
-            comments: []
+            comments: [],
+            NFT: false,
         })
         user.posts = user.posts + 1
         user.save()
