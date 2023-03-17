@@ -9,9 +9,9 @@ const Comment = ({comment}) => {
     const [showmore, setShowmore] = useState(false)
     return(
         <div className="comment" key={comment?.id}>
-            <img src={comment?.profilepic} />
+            <img src={comment?.user.profilepic} />
             <div className="comment-content-wrapper">
-                <CommentContent handle={comment?.handle} content={comment?.comment} />
+                <CommentContent handle={comment?.user.handle} content={comment?.comment} />
                 <div className='comment-info'>
                     <span>3h</span>
                     <p className='comment-likes'>{comment?.likes} likes</p>

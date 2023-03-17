@@ -1,0 +1,192 @@
+.profile-wrapper-background {
+    background: var(--gradient-bg);
+    overflow-y: auto;
+}
+
+.profile-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+}
+
+.profile-info-wrapper {
+    display: flex;
+    padding: 5rem 15rem;
+    gap: 5rem;
+}
+
+.profile-info-wrapper > img {
+    height: 18rem;
+}
+
+.profile-info{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.profile-info .row-1 {
+    display: flex;
+    justify-content: space-between;
+    letter-spacing: 1px;
+}
+
+.profile-info-name > p:nth-child(1){
+    font-size: 3.5rem;
+    font-weight: 500;
+}
+
+.profile-info-name > p:nth-child(2){
+    font-size: 1.6rem;
+    font-weight: 300;
+}
+
+.profile-info-btns {
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+}
+
+.profile-info-btns > button[data-edit='true'] {
+    background: transparent;
+    height: fit-content;
+    padding: 1rem 3rem;
+    font-weight: 600;
+    border: 1px solid var(--clr-white);
+    border-radius: 0.8rem;
+    -webkit-border-radius: 0.8rem;
+    -moz-border-radius: 0.8rem;
+    -ms-border-radius: 0.8rem;
+    -o-border-radius: 0.8rem;
+    cursor: pointer;
+}
+
+.profile-info-btns > button[data-edit='false'] {
+    background: var(--gradient-clr);
+    height: fit-content;
+    padding: 1rem 3rem;
+    font-weight: 600;
+    border-radius: 0.8rem;
+    -webkit-border-radius: 0.8rem;
+    -moz-border-radius: 0.8rem;
+    -ms-border-radius: 0.8rem;
+    -o-border-radius: 0.8rem;
+    cursor: pointer;
+}
+
+.profile-info-btns > img {
+    width: 3.5rem;
+}
+
+.profile-info .row-2 {
+    display: flex;
+    gap: 5rem;
+}
+
+.profile-info .row-2 > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-info .row-2 > div > p:nth-child(1){
+    font-size: 2.6rem;
+    font-weight: 600;
+}
+
+.profile-info .row-2 > div > p:nth-child(2){
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+
+.profile-info .row-3 {
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+}
+
+.profile-wrapper .divider {
+    background-color: var(--clr-white);
+    height: 1px;
+    width: 50vw;
+    margin: 0 auto;
+}
+
+.posts .posts-toggle{
+    background-color: var(--clr-white);
+    width: fit-content;
+    margin: 1rem auto 5rem;
+    border-radius: 100vw;
+    -webkit-border-radius: 100vw;
+    -moz-border-radius: 100vw;
+    -ms-border-radius: 100vw;
+    -o-border-radius: 100vw;
+    position: relative;
+    isolation: isolate;
+}
+
+.posts .posts-toggle::before{
+    content: '';
+    background-color: var(--clr-gray);
+    position: absolute;
+    width: 52%;
+    height: 100%;
+    left: -2%;
+    top: 0;
+    z-index: -1;
+    transition: transform 0.1s ease-in-out;
+    -webkit-transition: transform 0.1s ease-in-out;
+    -moz-transition: transform 0.1s ease-in-out;
+    -ms-transition: transform 0.1s ease-in-out;
+    -o-transition: transform 0.1s ease-in-out;
+    border-radius: 100vw;
+    -webkit-border-radius: 100vw;
+    -moz-border-radius: 100vw;
+    -ms-border-radius: 100vw;
+    -o-border-radius: 100vw;
+}
+
+.posts .posts-toggle[data-posts='NFTs']::before{
+    transform: translateX(98%);
+    -webkit-transform: translateX(98%);
+    -moz-transform: translateX(98%);
+    -ms-transform: translateX(98%);
+    -o-transform: translateX(98%);
+}
+
+.posts .posts-toggle > button {
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 0.8rem 2.4rem;
+    color: var(--clr-accent-primary);
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.posts .posts-toggle > button.active{
+    color: var(--clr-white);
+}
+
+.posts-display-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4rem;
+    padding: 0 10rem;
+    justify-content: center;
+}
+
+.posts-display-wrapper > img {
+    width: 30rem;
+    height: 30rem;
+    object-fit: contain;
+    cursor: pointer;
+}
+
+.posts-display-wrapper > p {
+    width: fit-content;
+    margin: 5rem auto;
+    font-size: 3rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}

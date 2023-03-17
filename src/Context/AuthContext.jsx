@@ -6,6 +6,7 @@ const AuthContext = createContext();
 
 const AuthContextProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
+	const [token, setToken] = useState(null);
 	const [loading, setLoading] = useState(true);
 
 	const login = async (type, email, password) => {
@@ -32,16 +33,16 @@ const AuthContextProvider = ({ children }) => {
         const unsubListener = getUser((user) => {
             setLoading(true)
             setUser(user)
+			if(user) user.getIdToken().then((token)=>setToken(token))
             setLoading(false)
         })
-
         return () => {
             unsubListener()
         }
 	}, []);
 
 	return (
-		<AuthContext.Provider value={{ user, login, signup, signOut }}>
+		<AuthContext.Provider value={{ user, token, login, signup, signOut }}>
 			{loading ? null : children}
 		</AuthContext.Provider>
 	);

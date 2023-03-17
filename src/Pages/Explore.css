@@ -1,0 +1,17 @@
+.explore-wrapper-background {
+    background: var(--gradient-bg);
+    overflow-y: auto;
+    width: 100%;
+    height: calc(100vh - 6rem);
+}
+
+.explore-wrapper {
+    display: flex;
+}
+
+.explore-wrapper > img {
+    width: 30rem;
+    height: 30rem;
+    object-fit: contain;
+    cursor: pointer;
+}

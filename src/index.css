@@ -20,6 +20,8 @@
 	--clr-gray: #313131;
 	--clr-accent-primary: #6633cc;
 	--clr-accent-secondary: #00FFFF;
+	--gradient-bg: linear-gradient(var(--clr-gray), transparent);
+	--gradient-clr: linear-gradient(135deg, var(--clr-accent-primary), var(--clr-accent-secondary));
 	font-size: 10px;
 }
 
