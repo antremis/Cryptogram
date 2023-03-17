@@ -18,14 +18,20 @@ import NavItems from "../Components/NavItems"
 import Post from './../Components/Post';
 import { useRef } from 'react';
 import { useNavigate } from "react-router-dom"
+import Search from './../Components/Search';
 
 const Wrapper = ({Child}) => {
     const {signOut} = useAuthContext()
     const {profile} = useUserContext()
     const postref = useRef(null)
+    const searchref = useRef(null)
     const navigate = useNavigate()
     
     const closeModal = () => {
+        postref.current.close()
+    }
+    
+    const closeSearchModal = () => {
         postref.current.close()
     }
 
@@ -35,9 +41,12 @@ const Wrapper = ({Child}) => {
                 <img src={CLOSE} id='add-post-close' onClick={closeModal}/>
                 <Post handle={profile?.handle} displayName={profile?.displayName} profileimg={profile?.profilepic} post={true} closeModal={closeModal} />
             </dialog>
+            <dialog id='search' ref={searchref}>
+                <Search closeSearchModal={closeSearchModal} />
+            </dialog>
             <nav className="leftnav">
                 <NavItems src={LOGO} action={signOut}/>
-                <NavItems src={SEARCH} />
+                <NavItems src={SEARCH} action={() => {searchref.current.showModal()}}/>
                 <NavItems src={EXPLORE} action={() => {navigate('/explore')}} />
                 <NavItems src={MARKETPLACE} />
                 <NavItems src={NFT} />

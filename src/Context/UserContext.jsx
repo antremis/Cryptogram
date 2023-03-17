@@ -11,6 +11,20 @@ const UserContextProvider = ({ children }) => {
     
 	const [loading, setLoading] = useState(true);
 
+    const getUsers = async (query) => {
+        const baseurl = import.meta.env.VITE_BACKEND_URL
+        try{
+            const res = await axios.post(`${baseurl}/api/user`, {query}, {headers: {authorisation: `Bearer ${token}`}})
+            return res.data.data
+        }
+        catch(error){
+            notify({
+                alert: error.message,
+                type: 'error'
+            })
+        }
+    }
+
     const getUser = async (handle) => {
         const baseurl = import.meta.env.VITE_BACKEND_URL
         try{
@@ -62,7 +76,7 @@ const UserContextProvider = ({ children }) => {
     }, [user])
 
 	return (
-		<UserContext.Provider value={{ profile, getUser, followUser }}>
+		<UserContext.Provider value={{ profile, getUsers, getUser, followUser }}>
 			{loading ? <h1>LOADING USER</h1> : children}
 		</UserContext.Provider>
 	);

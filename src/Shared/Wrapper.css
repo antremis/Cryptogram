@@ -32,6 +32,20 @@
 	height: 100vh;
 }
 
+#search{
+	margin: 15rem auto;
+	background-color: transparent;
+	width: 35vw;
+
+}
+
+#search::backdrop{
+	background-color: rgba(13, 13, 13, 0.50);
+	backdrop-filter: blur(0.3rem);
+	width: 100vw;
+	height: 100vh;
+}
+
 #add-post-close{
 	position: absolute;
 	top: 1.5rem;
