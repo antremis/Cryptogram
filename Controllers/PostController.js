@@ -34,19 +34,20 @@ const uploadImage = async (file) => {
         const imageBuffer = Buffer.from(file.buffer, "base64");
         const imageByteArray = new Uint8Array(imageBuffer);
         const options = {
-          resumable: false,
-          metadata: { contentType: file.mimetype },
-          predefinedAcl: "publicRead",
-          public: true,
+            resumable: false,
+            metadata: { contentType: file.mimetype },
+            predefinedAcl: "publicRead",
+            public: true,
         };
         const file_path = `img/${file.originalname}-${v4()}`
         const files = bucket.file(file_path);
         await files.save(imageByteArray, options);
         const field = await files.getMetadata();
         return field[0].mediaLink
-      } catch (e) {
+    }
+    catch (e) {
         throw new Error(e);
-      }
+    }
 }
 
 const makePost = async (req, res) => {
