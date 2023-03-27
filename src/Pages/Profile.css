@@ -175,18 +175,22 @@
 }
 
 .posts-display-wrapper {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 4rem;
     padding: 0 10rem;
-    justify-content: center;
+    place-items: center;
 }
 
 .posts-display-wrapper > img {
-    width: 30rem;
-    height: 30rem;
+    width: 100%;
     object-fit: contain;
     cursor: pointer;
+    border-radius: 1rem;
+    -webkit-border-radius: 1rem;
+    -moz-border-radius: 1rem;
+    -ms-border-radius: 1rem;
+    -o-border-radius: 1rem;
 }
 
 .posts-display-wrapper > p {

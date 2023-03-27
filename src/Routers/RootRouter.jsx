@@ -18,7 +18,8 @@ export const RootRouter = () => {
                     <Route exact path="/" element={<Wrapper Child={Dashboard}/>} />
                     <Route exact path="/app" element={<Wrapper Child={Dashboard}/>} />
                     <Route exact path="/chat" element={<Wrapper Child={Chat}/>} />
-                    <Route exact path="/explore/:hashtag" element={<Wrapper Child={Explore}/>} />
+                    <Route exact path="/explore" element={<Wrapper Child={Explore}/>} />
+                    <Route exact path="/explore/:hashtag" element={<Wrapper Child={Dashboard} />} />
                     <Route exact path="/profile/:handle" element={<Wrapper Child={Profile}/>} />
                 </Routes>)
                 : (<Routes>

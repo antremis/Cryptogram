@@ -65,6 +65,11 @@
 
 [data-post] > img{
     width: 60vh;
+    border-radius: 1rem;
+    -webkit-border-radius: 1rem;
+    -moz-border-radius: 1rem;
+    -ms-border-radius: 1rem;
+    -o-border-radius: 1rem;
 }
 
 [data-post] img#add-post{
@@ -115,4 +120,5 @@
 
 [data-post] .post-likes-wrapper > .post-likes-btns > img {
     width: 2.5rem;
+    cursor: pointer;
 }

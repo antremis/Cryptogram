@@ -6,6 +6,7 @@ import PROFILE from '../assets/profile.png'
 import SEARCH from '../assets/search.png'
 import EXPLORE from '../assets/explore.png'
 import NFT from '../assets/NFT.png'
+import LOGOUT from '../assets/logout.png'
 import MARKETPLACE from '../assets/marketplace.png'
 import NOTIFICATION from '../assets/notification.png'
 import CHAT from '../assets/chat.png'
@@ -20,7 +21,7 @@ import { useRef } from 'react';
 import { useNavigate } from "react-router-dom"
 import Search from './../Components/Search';
 
-const Wrapper = ({Child}) => {
+const Wrapper = ({Child, data}) => {
     const {signOut} = useAuthContext()
     const {profile} = useUserContext()
     const postref = useRef(null)
@@ -45,16 +46,17 @@ const Wrapper = ({Child}) => {
                 <Search closeSearchModal={closeSearchModal} />
             </dialog>
             <nav className="leftnav">
-                <NavItems src={LOGO} action={signOut}/>
+                <NavItems src={LOGO} action={() => {navigate('/')}} />
                 <NavItems src={SEARCH} action={() => {searchref.current.showModal()}}/>
                 <NavItems src={EXPLORE} action={() => {navigate('/explore')}} />
                 <NavItems src={MARKETPLACE} />
                 <NavItems src={NFT} />
                 <NavItems src={PROFILE} action={() => {navigate(`/profile/${profile?.handle}`)}} />
+                <NavItems src={LOGOUT} action={signOut} />
             </nav>
 
             <main className='content'>
-                <Child />
+                <Child data={data} />
             </main>
             
             <nav className="rightnav">

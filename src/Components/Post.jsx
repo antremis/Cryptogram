@@ -5,11 +5,27 @@ import LIKE from '../assets/like.png'
 import SHARE from '../assets/share.png'
 import CommentContent from './CommentContent'
 import StockImg from '../assets/postStockImg.png'
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
-const PostContent = ({setData, profileimg, displayName, handle, imgsrc, likes, caption, post}) => {
+const PostContent = ({setData, profileimg, displayName, handle, imgsrc, likes, caption, post, l, pid}) => {
+    const [liked, setLiked] = useState(l)
+    const [cur_likes, setLikes] = useState(likes)
     const imgref = useRef(null)
-    let data
+    const {likePost, unlikePost} = usePostContext()
+
+    const handleLike = async () => {
+        likePost(pid, () => {
+            setLiked(true)
+            setLikes(prev => prev + 1)
+        })
+    }
+
+    const handleUnlike = async () => {
+        unlikePost(pid, () => {
+            setLiked(false)
+            setLikes(prev => prev - 1)
+        })
+    }
 
     const handleImgUpload = (e) => {
         const reader = new FileReader();
@@ -17,7 +33,9 @@ const PostContent = ({setData, profileimg, displayName, handle, imgsrc, likes, c
             imgref.current.src = event.target.result
         }
         reader.readAsDataURL(e.target.files[0]);
-        setData(e.target.files[0])
+        setData(e.target.files[0], (event) => {
+            event.target.result = null
+        })
     }
 
     return(
@@ -44,10 +62,14 @@ const PostContent = ({setData, profileimg, displayName, handle, imgsrc, likes, c
                 {
                     post
                     ? <p>0 likes</p>
-                    : <p>{likes} likes</p>
+                    : <p>{cur_likes} likes</p>
                 }
                 <div className='post-likes-btns'>
-                    <img src={LIKE} />
+                    {
+                        liked
+                        ? <img src={LIKE} onClick={handleUnlike} />
+                        : <img src={LIKE} onClick={handleLike} />
+                    }
                     <img src={SHARE} />
                 </div>
             </div>
@@ -65,19 +87,23 @@ const PostContent = ({setData, profileimg, displayName, handle, imgsrc, likes, c
     )
 }
 
-const Post = ({profileimg, displayName, handle, imgsrc, likes, caption, post, closeModal}) => {
+const Post = ({profileimg, displayName, handle, imgsrc, likes, caption, post, closeModal, liked, pid}) => {
 
     const {makePost} = usePostContext()
-    let data
+    let data, clearImg
 
-    const setData = (val) => {
+    const setData = (val, callback) => {
         data = val
+        clearImg = callback
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
         const caption = e.target.caption.value
+        e.target.caption.value = ''
         makePost(caption, data)
+        clearImg()
+        data = null
         closeModal()
     }
     
@@ -90,7 +116,7 @@ const Post = ({profileimg, displayName, handle, imgsrc, likes, caption, post, cl
                 </form>
                 : <div data-post-wrapper>
                     <div data-post>
-                        <PostContent profileimg={profileimg} displayName={displayName} handle={handle} imgsrc={imgsrc} likes={likes} caption={caption} post={post} />
+                        <PostContent profileimg={profileimg} displayName={displayName} handle={handle} imgsrc={imgsrc} likes={likes} caption={caption} post={post} l={liked} pid={pid} />
                     </div>
                 </div>
             }

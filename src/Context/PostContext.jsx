@@ -44,6 +44,34 @@ const PostContextProvider = ({children}) => {
             })
     }
 
+    const likePost = async (pid, callback) => {
+        const baseurl = import.meta.env.VITE_BACKEND_URL
+        try{
+            const commentId = await axios.put(`${baseurl}/api/like/${pid}`, {}, {headers: {authorisation: `Bearer ${token}`}})
+            callback()
+        }
+        catch(error){
+            notify({
+                alert:error.message,
+                type:'error'
+            })
+        }
+    }
+
+    const unlikePost = async (pid, callback) => {
+        const baseurl = import.meta.env.VITE_BACKEND_URL
+        try{
+            const commentId = await axios.delete(`${baseurl}/api/like/${pid}`, {headers: {authorisation: `Bearer ${token}`}})
+            callback()
+        }
+        catch(error){
+            notify({
+                alert:error.message,
+                type:'error'
+            })
+        }
+    }
+
     const makeComment = async (id, input) => {
         const baseurl = import.meta.env.VITE_BACKEND_URL
         const comment = input.value
@@ -107,7 +135,7 @@ const PostContextProvider = ({children}) => {
             const baseurl = import.meta.env.VITE_BACKEND_URL
             let res
             if(!hashtag) res = await axios.get(`${baseurl}/api/post`, {headers:{authorisation: `Bearer ${token}`}})
-            res = await axios.get(`${baseurl}/api/post`, {params: {hashtag}, headers:{authorisation: `Bearer ${token}`}})
+            else res = await axios.get(`${baseurl}/api/hashtag/${hashtag}`, { headers:{authorisation: `Bearer ${token}`}})
             setPosts(res.data.data)
         }
         catch(error){
@@ -118,8 +146,22 @@ const PostContextProvider = ({children}) => {
         }
     }
 
+    const getHashtags = async () => {
+        try{
+            const baseurl = import.meta.env.VITE_BACKEND_URL
+            const res = await axios.get(`${baseurl}/api/hashtag`, { headers:{authorisation: `Bearer ${token}`}})
+            return res.data.data
+        }
+        catch(error){
+            notify({
+                alert:error.message,
+                type:'error'
+            })
+        }
+    }
+
     return(
-        <PostContext.Provider value={{ posts, getPostsForUser, getPostsByUser, makePost, makeComment}}>
+        <PostContext.Provider value={{ posts, getPostsForUser, getPostsByUser, makePost, likePost, unlikePost, makeComment, getHashtags }}>
             {children}
         </PostContext.Provider>
     )
