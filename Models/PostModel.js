@@ -1,18 +1,6 @@
 const mongoose = require('mongoose')
 
 const PostSchema = new mongoose.Schema({
-    // displayName: {
-    //     type: String,
-    //     required: true,
-    // },
-    // handle: {
-    //     type: String,
-    //     required: true,
-    // },
-    // profilePic: {
-    //     type: String,
-    //     required: true,
-    // },
     user: {
         type: String,
         ref: 'Users',
@@ -23,21 +11,25 @@ const PostSchema = new mongoose.Schema({
         required: true,
     },
     likes: {
-        type: Number,
-        required: true,
+        type: [],
+        default: [],
     },
     caption: {
         type: String,
-        required: true,
+        default: '',
     },
     comments: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'Comments',
-        required: true,
+        default: [],
     },
     NFT: {
         type: Boolean,
-        required: true,
+        default: false,
+    },
+    hashtags: {
+        type: [String],
+        default: [],
     }
 }, {timestamps: true})
 

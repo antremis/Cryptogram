@@ -1,14 +1,6 @@
 const mongoose = require('mongoose')
 
 const CommentSchema = new mongoose.Schema({
-    // handle: {
-    //     type: String,
-    //     required: true,
-    // },
-    // profilepic: {
-    //     type: String,
-    //     required: true,
-    // },
     user: {
         type: String,
         ref: 'Users',
@@ -21,11 +13,11 @@ const CommentSchema = new mongoose.Schema({
     replies: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'Comments',
-        required: true,
+        default: [],
     },
     likes: {
         type: Number,
-        required: true,
+        default: 0,
     }
 }, {timestamp: true})
 

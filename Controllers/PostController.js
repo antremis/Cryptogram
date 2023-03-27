@@ -1,32 +1,8 @@
 const User = require('../Models/UserModel')
 const Post = require('../Models/PostModel')
+const Hashtag = require('../Models/HashtagModel')
 const admin = require('../config/firebase-config')
 const {v4} = require('uuid')
-
-// const uploadImage = (file) => {
-//     const bucket = admin.storage().bucket();
-
-//     const { originalname, buffer } = file;
-
-//     file = bucket.file(originalname);
-
-//     const stream = file.createWriteStream({
-//         metadata: {
-//             contentType: req.file.mimetype,
-//         },
-//     });
-
-//     stream.on('error', (error) => {
-//         throw new Error(error)
-//     });
-
-//     stream.on('finish', async () => {
-//         const publicUrl = `https://storage.googleapis.com/cryptogram-d1a77/${file.name}`;
-//         console.log(`File uploaded successfully. Public URL: ${publicUrl}`);
-//     });
-
-//     stream.end(buffer);
-// }
 
 const uploadImage = async (file) => {
     try {
@@ -50,6 +26,27 @@ const uploadImage = async (file) => {
     }
 }
 
+const handleHashtags = async (caption, imgsrc) => {
+    const regex = /#\w+/g;
+    const hashtags = caption.match(regex);
+    if(!hashtags) return []
+    await Promise.all(hashtags.map(async (hashtag) => {
+        const temp = await Hashtag.findOne({hashtag})
+        if(!temp) Hashtag.create({
+            hashtag,
+            posts: 1,
+            imgsrc
+        })
+        else{
+            temp.posts = temp.posts + 1
+            temp.imgsrc = imgsrc
+            temp.save()
+        }
+    }))
+
+    return hashtags
+}
+
 const makePost = async (req, res) => {
     const uid = req.user
     const {caption} = req.body
@@ -61,6 +58,7 @@ const makePost = async (req, res) => {
         const user = await User.findById(uid)
         if(!user) return res.status(404).json({mssg: 'User Not Found'})
         const imgsrc = await uploadImage(file)
+        const hashtags = await handleHashtags(caption, imgsrc)
         const newPost = await Post.create({
             imgsrc,
             user: uid,
@@ -68,6 +66,7 @@ const makePost = async (req, res) => {
             likes: 0,
             comments: [],
             NFT: false,
+            hashtags,
         })
         user.posts = user.posts + 1
         user.save()
@@ -75,6 +74,43 @@ const makePost = async (req, res) => {
     }
     catch(error){
         console.log(error)
+        return res.status(400).json({mssg: error.message})
+    }
+}
+
+const likePost = async (req, res) => {
+    const uid = req.user
+    const { pid } = req.params
+    try{
+        const user = await User.findById(uid)
+        const post = await Post.findById(pid)
+        if(!post) return res.status(404).json({mssg: 'Could not find post'})
+        if(!post.likes.includes(user.handle)) {
+            post.likes.push(user.handle)
+            post.save()
+        }
+        res.status(200).json({mssg: 'success'})
+    }
+    catch(e){
+        return res.status(400).json({mssg: error.message})
+    }
+}
+
+const unlikePost = async (req, res) => {
+    const uid = req.user
+    const { pid } = req.params
+    try{
+        const user = await User.findById(uid)
+        const post = await Post.findById(pid)
+        if(!post) return res.status(404).json({mssg: 'Could not find post'})
+        if(post.likes.includes(user.handle)) {
+            post.likes = post.likes.filter(handle => handle !== user.handle)
+            post.save()
+        }
+        res.status(200).json({mssg: 'success'})
+    }
+    catch(e){
+        console.log(e)
         return res.status(400).json({mssg: error.message})
     }
 }
@@ -97,18 +133,17 @@ const getPostsByUser = async (req, res) => {
 const getPostsForUser = async (req, res) => {
     try{
         const uid = req.user
-        const { hashtag } = req.params
         const user = await User.findById(uid)
-        let posts
-        if(!hashtag){
-            posts = await Post.find({ $or: [{user: uid}, {user: {$in: user.following}}] })
-                .populate({path: 'comments', populate: {path: 'user'}})
-                .populate('user')
-                .sort({createdAt: -1})
-        }
-        else{
-            posts = []
-        }
+        let posts = await Post.find({ $or: [{user: uid}, {user: {$in: user.following}}] })
+            .populate({path: 'comments', populate: {path: 'user'}})
+            .populate('user')
+            .sort({updatedAt: -1})
+            .lean()
+        posts.map(post => {
+            if(post.likes.includes(user.handle)) post.liked = true
+            else post.liked = false
+            post.likes = post.likes.length
+        })
         return res.json({mssg: 'Success', data: posts})
     }
     catch(error){
@@ -133,4 +168,6 @@ module.exports = {
     getPostsByUser,
     getPostsForUser,
     getPost,
+    likePost,
+    unlikePost,
 }

@@ -6,6 +6,8 @@ const PostRoute = require('./Routes/PostRoute')
 const CommentRoute = require('./Routes/CommentRoute')
 const UserRoute = require('./Routes/UserRoute')
 const ChatRoute = require('./Routes/ChatRoute')
+const HashtagRoute = require('./Routes/HashtagRoute')
+const LikeRoute = require('./Routes/LikeRoute')
 require('dotenv').config()
 
 const app = express()
@@ -36,6 +38,8 @@ app.use('/api/post', PostRoute)
 app.use('/api/comment', CommentRoute)
 app.use('/api/user', UserRoute)
 app.use('/api/chat', ChatRoute)
+app.use('/api/hashtag', HashtagRoute)
+app.use('/api/like', LikeRoute)
 
 const run = async () => {
     try{

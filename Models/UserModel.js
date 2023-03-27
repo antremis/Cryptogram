@@ -20,21 +20,21 @@ const UserSchema = new mongoose.Schema({
     },
     posts: {
         type: Number,
-        required: true,
+        default: 0,
     },
     NFTS: {
         type: Number,
-        required: true,
+        default: 0,
     },
     followers: {
         type: [String],
         ref: 'Users',
-        required: true,
+        default: [],
     },
     following: {
         type: [String],
         ref: 'Users',
-        required: true,
+        default: [],
     },
 }, {timestamps: true})
 
