@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useUserContext } from '../Context/UserContext'
 import { usePostContext } from '../Context/PostContext'
 import './Profile.css'
@@ -8,18 +8,42 @@ import FAVORITE from '../assets/favorite.png'
 
 const Profile = () => {
 
-    const { profile, getUser, followUser } = useUserContext()
+    const { profile, getUser, followOrUnfollowUser, updateUser } = useUserContext()
     const { handle } = useParams()
+    const navigate = useNavigate()
     const [ userProfile, setUserProfile ] = useState({})
     const { getPostsByUser } = usePostContext()
     const [ posts, setPosts ] = useState({posts: [], NFTS: []})
     const [ NFTS, setNFTS ] = useState(false)
+    const [edit, setEdit] = useState(false)
     const toggleRef = useRef()
     const display_posts = NFTS ? posts.NFTS : posts.posts
 
     const togglePosts = (val) => {
         setNFTS(val)
         toggleRef.current.dataset.posts = val ? 'NFTs' : 'posts'
+    }
+
+    const handleProfileChange = (e) => {
+        e.preventDefault()
+        const new_profile = {
+            displayName : e.target.displayName.value,
+            handle : e.target.handle.value,
+        }
+        updateUser(handle, new_profile, ()=>{
+            navigate(`/profile/${new_profile.handle}`)
+            setEdit(false)
+        })
+    }
+
+    const handleFollowOrUnfollow = () => {
+        followOrUnfollowUser(handle, userProfile.followed, () => {
+            setUserProfile(prev => ({ 
+                ...prev,
+                followed: !prev.followed,
+                followers: userProfile.followed? prev.followers-1 : prev.followers+1
+            }))
+        })
     }
 
     useEffect(() => {
@@ -36,24 +60,37 @@ const Profile = () => {
 
     return(
         <div className='profile-wrapper-background'>
-            <div className="profile-wrapper">
+            <form className="profile-wrapper" onSubmit={handleProfileChange} >
                 <div className="profile-info-wrapper">
                     <img src={userProfile?.profilepic}/>
                     <div className="profile-info">
                         <div className="row-1">
                             <div className="profile-info-name">
-                                <p>{userProfile?.displayName}</p>
-                                <p>@{userProfile?.handle}</p>
+                                {
+                                    edit
+                                    ? <input type = 'text' name = 'displayName' defaultValue={userProfile?.displayName} autoFocus />
+                                    : <p>{userProfile?.displayName}</p>
+                                }
+                                {
+                                    edit
+                                    ? <span>@<input type = 'text' name = 'handle' defaultValue={userProfile?.handle} readOnly={!edit} /></span>
+                                    : <span>@{userProfile?.handle}</span>
+                                }
                             </div>
                             <div className="profile-info-btns">
                                 {
                                     handle == profile?.handle
                                     ? <>
-                                        <button data-edit='true' >Edit</button>
+                                        {edit && <button data-edit='true' onClick={() => setEdit(false)} >Cancel</button>}
+                                        {
+                                            edit
+                                            ? <button data-edit='true' type='submit' >Save</button>
+                                            : <div data-edit='true' onClick={() => setEdit(true)} >Edit</div>
+                                        }
                                         <img src={FAVORITE} />
                                     </>
                                     :<>
-                                        <button data-edit='false' onClick = {() => followUser(handle)} >Follow</button>
+                                        <div data-edit='false' onClick = {handleFollowOrUnfollow} >{userProfile.followed ? 'Unfollow' : 'Follow'}</div>
                                         <img src={CHAT} />
                                     </>
                                 }
@@ -70,11 +107,11 @@ const Profile = () => {
                                 <p>NFTS</p>
                             </div>
                             <div className="followers">
-                                <p>{userProfile?.followers?.length}</p>
+                                <p>{userProfile?.followers}</p>
                                 <p>FOLLOWERS</p>
                             </div>
                             <div className="following">
-                                <p>{userProfile?.following?.length}</p>
+                                <p>{userProfile?.following}</p>
                                 <p>FOLLOWING</p>
                             </div>
                         </div>
@@ -99,7 +136,7 @@ const Profile = () => {
                         }
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     )
 }

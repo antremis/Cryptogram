@@ -1,13 +1,15 @@
 import './Search.css'
 import SEARCH from '../assets/search.png'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useUserContext } from '../Context/UserContext'
-import {Link} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const Search = ({ closeSearchModal }) => {
 
     const { getUsers } = useUserContext()
     const [ users, setUsers ] = useState()
+    const sref = useRef()
+    const navigate = useNavigate()
     let deferer
     
     const handleInput = (e) => {
@@ -22,9 +24,14 @@ const Search = ({ closeSearchModal }) => {
         }, 800)
     }
 
+    const handleClick = (url) => {
+        closeSearchModal()
+        navigate(url)
+    }
+
     return (
-        <form className='search-wrapper'>
-            <div className="search-input-wrapper">
+        <form className='search-wrapper' onClick={e=>e.stopPropagation()}>
+            <div className="search-input-wrapper" ref={sref}>
                 <img src={SEARCH} />
                 <input type='text' placeholder='Search' onChange = {handleInput} />
             </div>
@@ -32,10 +39,10 @@ const Search = ({ closeSearchModal }) => {
                 {
                     users
                     ? users.map((user) => (
-                        <Link to={`/profile/${user.handle}`} key={user.handle} >
+                        <div onClick={() => handleClick(`/profile/${user.handle}`)} key={user.handle} >
                             <img src={user.profilepic}/>
                             <p>{user.handle}</p>
-                        </Link>
+                        </div>
                     ))
                     : null
                 }

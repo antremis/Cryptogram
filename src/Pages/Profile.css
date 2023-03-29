@@ -39,14 +39,27 @@
     letter-spacing: 1px;
 }
 
-.profile-info-name > p:nth-child(1){
+.profile-info-name > p:nth-child(1),
+.profile-info-name > input:nth-child(1){
     font-size: 3.5rem;
     font-weight: 500;
+    background: transparent;
+    letter-spacing: 1px;
 }
 
-.profile-info-name > p:nth-child(2){
-    font-size: 1.6rem;
+.profile-info-name > span{
+    display: block;
+    opacity: 0.7;
+}
+.profile-info-name > span,
+.profile-info-name > span > input{
+    font-size: 1.4rem;
     font-weight: 300;
+    background: transparent;
+    letter-spacing: 1px;
+}
+.profile-info-name > span > input{
+    width: 40ch;
 }
 
 .profile-info-btns {
@@ -55,13 +68,14 @@
     align-items: center;
 }
 
-.profile-info-btns > button[data-edit='true'] {
+.profile-info-btns > [data-edit='true'] {
     background: transparent;
     height: fit-content;
     padding: 1rem 3rem;
     font-weight: 600;
     border: 1px solid var(--clr-white);
     border-radius: 0.8rem;
+    font-size: 1.4rem;
     -webkit-border-radius: 0.8rem;
     -moz-border-radius: 0.8rem;
     -ms-border-radius: 0.8rem;
@@ -69,11 +83,12 @@
     cursor: pointer;
 }
 
-.profile-info-btns > button[data-edit='false'] {
+.profile-info-btns > [data-edit='false'] {
     background: var(--gradient-clr);
     height: fit-content;
     padding: 1rem 3rem;
     font-weight: 600;
+    font-size: 1.4rem;
     border-radius: 0.8rem;
     -webkit-border-radius: 0.8rem;
     -moz-border-radius: 0.8rem;

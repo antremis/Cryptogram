@@ -6,6 +6,7 @@ import SHARE from '../assets/share.png'
 import CommentContent from './CommentContent'
 import StockImg from '../assets/postStockImg.png'
 import { useRef, useState } from 'react';
+import { Link } from 'react-router-dom'
 
 const PostContent = ({setData, profileimg, displayName, handle, imgsrc, likes, caption, post, l, pid}) => {
     const [liked, setLiked] = useState(l)
@@ -40,7 +41,7 @@ const PostContent = ({setData, profileimg, displayName, handle, imgsrc, likes, c
 
     return(
         <>
-            <div className='post-handle-wrapper'>
+            <Link className='post-handle-wrapper' to={`/profile/${handle}`} >
                 <img src={profileimg} className='profileimg'/>
                 <div className="post-handle">
                     <span>{displayName}</span>
@@ -51,7 +52,7 @@ const PostContent = ({setData, profileimg, displayName, handle, imgsrc, likes, c
                     ? null
                     : <img src={FAVORITE} className='favorite' />
                 }
-            </div>
+            </Link>
             {
                 post
                 ? <><label htmlFor='fileupload'><img src={StockImg} id='add-post' ref={imgref}/></label>

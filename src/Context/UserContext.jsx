@@ -39,10 +39,30 @@ const UserContextProvider = ({ children }) => {
         }
     }
 
-    const followUser = async (handle) => {
+    const followOrUnfollowUser = async (handle, followed, callback) => {
         const baseurl = import.meta.env.VITE_BACKEND_URL
         try{
-            const res = await axios.put(`${baseurl}/api/user`, {handle}, {headers: {authorisation: `Bearer ${token}`}})
+            if(followed) await axios.delete(`${baseurl}/api/user/${handle}`, {headers: {authorisation: `Bearer ${token}`}})
+            else await axios.put(`${baseurl}/api/user`, {handle}, {headers: {authorisation: `Bearer ${token}`}})
+            callback()
+        }
+        catch(error){
+            notify({
+                alert: error.message,
+                type: 'error'
+            })
+        }
+    }
+
+    const updateUser = async (handle, profile, callback) => {
+        const baseurl = import.meta.env.VITE_BACKEND_URL
+        try{
+            const res = await axios.patch(`${baseurl}/api/user/${handle}`, {profile}, {headers: {authorisation: `Bearer ${token}`}})
+            setProfile(prev => ({
+                ...prev, 
+                ...profile
+            }))
+            callback()
         }
         catch(error){
             notify({
@@ -76,7 +96,7 @@ const UserContextProvider = ({ children }) => {
     }, [user])
 
 	return (
-		<UserContext.Provider value={{ profile, getUsers, getUser, followUser }}>
+		<UserContext.Provider value={{ profile, getUsers, getUser, followOrUnfollowUser, updateUser }}>
 			{loading ? <h1>LOADING USER</h1> : children}
 		</UserContext.Provider>
 	);

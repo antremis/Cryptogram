@@ -31,15 +31,16 @@
     gap: 1rem;
 }
 
-.search-result-wrapper > a {
+.search-result-wrapper > div {
     display: flex;
 	background-color: #0f0f0f8f;
     gap: 1.5rem;
     padding: 2rem;
-    align-items: center;;
+    align-items: center;
+    cursor: pointer;
 }
 
-.search-result-wrapper > a > img {
+.search-result-wrapper > div > img {
     width: 4rem;
     height: 4rem;
     object-fit: contain;
@@ -50,7 +51,7 @@
     -o-border-radius: 50%;
 }
 
-.search-result-wrapper > a > p {
+.search-result-wrapper > div > p {
     font-size: 2rem;
     font-weight: 600;
     text-overflow: ellipsis;

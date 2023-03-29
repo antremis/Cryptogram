@@ -31,3 +31,11 @@ body{
 	font-family: 'gilroy', sans-serif;
 	color: var(--clr-white);
 }
+
+input{
+	font-family: 'gilroy', sans-serif;
+}
+
+button{
+	font-family: 'gilroy', sans-serif;
+}

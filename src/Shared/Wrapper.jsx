@@ -33,7 +33,7 @@ const Wrapper = ({Child, data}) => {
     }
     
     const closeSearchModal = () => {
-        postref.current.close()
+        searchref.current.close()
     }
 
     return(
@@ -42,16 +42,16 @@ const Wrapper = ({Child, data}) => {
                 <img src={CLOSE} id='add-post-close' onClick={closeModal}/>
                 <Post handle={profile?.handle} displayName={profile?.displayName} profileimg={profile?.profilepic} post={true} closeModal={closeModal} />
             </dialog>
-            <dialog id='search' ref={searchref}>
+            <dialog id='search' ref={searchref} onClick={closeSearchModal} >
                 <Search closeSearchModal={closeSearchModal} />
             </dialog>
             <nav className="leftnav">
-                <NavItems src={LOGO} action={() => {navigate('/')}} />
+                <NavItems src={LOGO} link = {'/'} />
                 <NavItems src={SEARCH} action={() => {searchref.current.showModal()}}/>
-                <NavItems src={EXPLORE} action={() => {navigate('/explore')}} />
+                <NavItems src={EXPLORE} link = {'/explore'} />
                 <NavItems src={MARKETPLACE} />
                 <NavItems src={NFT} />
-                <NavItems src={PROFILE} action={() => {navigate(`/profile/${profile?.handle}`)}} />
+                <NavItems src={PROFILE} link = {`/profile/${profile?.handle}`} />
                 <NavItems src={LOGOUT} action={signOut} />
             </nav>
 
@@ -62,7 +62,7 @@ const Wrapper = ({Child, data}) => {
             <nav className="rightnav">
                 <nav>
                     <NavItems src={NOTIFICATION} />
-                    <NavItems src={CHAT} action={() => {navigate('/chat')}}/>
+                    <NavItems src={CHAT} link = {'/chat'} />
                     <NavItems src={POST} action={() => {postref.current.showModal()}}/>
                 </nav>
                 <nav>
