@@ -69,7 +69,7 @@ const makePost = async (req, res) => {
             hashtags,
         })
         user.posts = user.posts + 1
-        user.save()
+        await user.save()
         return res.json({mssg: 'Success', data: {id: newPost._id, imgsrc}})
     }
     catch(error){

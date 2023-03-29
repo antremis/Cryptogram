@@ -16,7 +16,7 @@ const makeComment = async (req, res) => {
         })
         const post = await Post.findById(req.params.id)
         post.comments.push(newComment._id)
-        post.save()
+        await post.save()
         return res.json({mssg: "Success", data: {id: newComment._id}})
     }
     catch(error){

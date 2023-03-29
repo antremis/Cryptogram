@@ -2,8 +2,10 @@ const router = require('express').Router()
 const {
     getOrCreateUser,
     followUser,
+    unfollowUser,
     getUser,
-    getUsers
+    getUsers,
+    updateUser
 } = require('../Controllers/UserController')
 
 router.route('/')
@@ -12,5 +14,7 @@ router.route('/')
     .post(getUsers)
 router.route('/:handle')
     .get(getUser)
+    .patch(updateUser)
+    .delete(unfollowUser)
 
 module.exports = router
