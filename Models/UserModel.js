@@ -18,6 +18,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    address: {
+        type: String,
+        default: null
+    },
     posts: {
         type: Number,
         default: 0,

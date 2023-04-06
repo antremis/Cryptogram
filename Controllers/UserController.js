@@ -16,7 +16,7 @@ const getOrCreateUser = async (req, res) => {
         user = await User.create({
             _id: uid,
             handle: v4(),
-            displayName: USER.name || `Annonymous ${user.handle}`,
+            displayName: USER.name || `Annonymous`,
             profilepic: USER.picture || 'https://www.google.com/imgres?imgurl=https%3A%2F%2Ficon2.cleanpng.com%2F20180401%2Fgoe%2Fkisspng-user-profile-computer-icons-profile-5ac09244d91906.2547020615225697968892.jpg&tbnid=X86heah6oXP2vM&vet=12ahUKEwiBptyJhJX-AhWfGbcAHQ-bAqYQMygqegUIARC-Ag..i&imgrefurl=https%3A%2F%2Fwww.cleanpng.com%2Ffree%2Fuser-profile.html&docid=_VqasVaKWpBq8M&w=260&h=260&q=profile%20pic%20icon%20png&ved=2ahUKEwiBptyJhJX-AhWfGbcAHQ-bAqYQMygqegUIARC-Ag',
             followers: [],
             following: [],
@@ -121,11 +121,27 @@ const updateUser = async (req, res) => {
     }
 }
 
+const connectWalletToUser = async (req, res) => {
+    const uid = req.user
+    const { address } = req.body
+    try{
+        const user = await User.findById(uid)
+        user.address = address
+        await user.save()
+        return res.status(200).json({mssg: 'success'})
+    }
+    catch(e){
+        console.log(e.message)
+        return res.status(400).json({mssg: 'Internal Error', error: e.message})
+    }
+}
+
 module.exports = {
     getOrCreateUser,
     followUser,
     unfollowUser,
     getUser,
     getUsers,
-    updateUser
+    updateUser,
+    connectWalletToUser,
 }

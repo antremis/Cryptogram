@@ -5,13 +5,16 @@ const {
     unfollowUser,
     getUser,
     getUsers,
-    updateUser
+    updateUser,
+    connectWalletToUser,
 } = require('../Controllers/UserController')
 
 router.route('/')
     .get(getOrCreateUser)
     .put(followUser)
     .post(getUsers)
+router.route('/connect')
+    .post(connectWalletToUser)
 router.route('/:handle')
     .get(getUser)
     .patch(updateUser)
