@@ -22,14 +22,14 @@ app.use((req, res, next) => {
 
 app.use(async (req, res, next) => {
     try{
-        const USER_TOKEN = req.headers.authorisation.split(" ")[1]
+        let USER_TOKEN = req.headers.authorisation.split(" ")[1]
         const USER = await fbadmin.auth().verifyIdToken(USER_TOKEN)
         if(!USER) return res.status(400).json({mssg: "Unauthorised"})
         req.user = USER.uid
         next()
     }
     catch(err){
-        console.log(err)
+        console.log(err.message)
         return res.status(400).json({mssg: "Invalid Auth Bearer Provided"})
     }
 })
