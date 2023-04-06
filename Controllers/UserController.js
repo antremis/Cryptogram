@@ -13,12 +13,11 @@ const getOrCreateUser = async (req, res) => {
     try{
         const USER_TOKEN = req.headers.authorisation.split(" ")[1]
         const USER = await admin.auth().verifyIdToken(USER_TOKEN)
-        if(!USER) return res.status(403).json({mssg: "IDK WHY UR HERE?", error: "FIREBASE THINGS"})
         user = await User.create({
             _id: uid,
             handle: v4(),
-            displayName: USER.name,
-            profilepic: USER.picture,
+            displayName: USER.name || `Annonymous ${user.handle}`,
+            profilepic: USER.picture || 'https://www.google.com/imgres?imgurl=https%3A%2F%2Ficon2.cleanpng.com%2F20180401%2Fgoe%2Fkisspng-user-profile-computer-icons-profile-5ac09244d91906.2547020615225697968892.jpg&tbnid=X86heah6oXP2vM&vet=12ahUKEwiBptyJhJX-AhWfGbcAHQ-bAqYQMygqegUIARC-Ag..i&imgrefurl=https%3A%2F%2Fwww.cleanpng.com%2Ffree%2Fuser-profile.html&docid=_VqasVaKWpBq8M&w=260&h=260&q=profile%20pic%20icon%20png&ved=2ahUKEwiBptyJhJX-AhWfGbcAHQ-bAqYQMygqegUIARC-Ag',
             followers: [],
             following: [],
             posts: 0,
