@@ -13,6 +13,7 @@ const getOrCreateUser = async (req, res) => {
     try{
         const USER_TOKEN = req.headers.authorisation.split(" ")[1]
         const USER = await admin.auth().verifyIdToken(USER_TOKEN)
+        if(!USER) return res.status(403).json({mssg: "IDK WHY UR HERE?", error: "FIREBASE THINGS"})
         user = await User.create({
             _id: uid,
             handle: v4(),
