@@ -145,7 +145,7 @@ const getPostsForUser = async (req, res) => {
             .sort({updatedAt: -1})
             .lean()
         posts.map(post => {
-            if(post.likes.includes(user.handle)) post.liked = true
+            if(post.likes.includes(uid)) post.liked = true
             else post.liked = false
             post.likes = post.likes.length
         })
