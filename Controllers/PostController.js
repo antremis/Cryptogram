@@ -67,9 +67,6 @@ const makePost = async (req, res) => {
             imgsrc,
             user: uid,
             caption,
-            likes: 0,
-            comments: [],
-            NFT: false,
             hashtags,
         })
         user.posts = user.posts + 1
@@ -117,6 +114,14 @@ const unlikePost = async (req, res) => {
     }
 }
 
+function convertLink(link) {
+    const isIPFS = link.startsWith('ipfs://');
+    if (!isIPFS) return [link]
+    const cid = link.replace('ipfs://', '');
+    const infuraLink = `https://ipfs.infura.io/ipfs/${cid}`;
+    return [link, infuraLink];
+}
+
 const getPostsByUser = async (req, res) => {
     try{
         const uid = req.user
@@ -125,9 +130,14 @@ const getPostsByUser = async (req, res) => {
         if(!user) return res.json({mssg: 'Success', data: {posts: [], NFTS: []}})
         const posts = await Post.find({user: user._id}).populate({path: 'comments', populate: {path: 'user'}}).populate('user').sort({createdAt: -1})
         if(!user.address) return res.json({mssg: 'Success', data: {posts, NFTS: []}})
-        const NFTS = await Moralis.EvmApi.nft.getWalletNFTs({
+        const res = await Moralis.EvmApi.nft.getWalletNFTs({
             address: user.address,
             chain: EvmChain.ETHEREUM,
+        });
+        const NFTS = res.result.map(nft => {
+            const metadata = JSON.parse(nft.metadata);
+            const imageUrl = metadata.image;
+            return { ...nft, imageUrl };
         });
         return res.json({mssg: 'Success', data: {posts, NFTS}})
     }
