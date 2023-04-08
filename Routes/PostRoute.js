@@ -13,5 +13,4 @@ router.route('/')
 router.put('/', upload.single('img'), makePost)
 router.route('/:handle')
     .get(getPostsByUser)
-    
 module.exports = router

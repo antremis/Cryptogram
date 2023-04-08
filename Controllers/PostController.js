@@ -3,6 +3,8 @@ const Post = require('../Models/PostModel')
 const Hashtag = require('../Models/HashtagModel')
 const admin = require('../config/firebase-config')
 const {v4} = require('uuid')
+const Moralis = require("moralis").default;
+const { EvmChain } = require("@moralisweb3/common-evm-utils");
 
 const uploadImage = async (file) => {
     try {
@@ -82,11 +84,10 @@ const likePost = async (req, res) => {
     const uid = req.user
     const { pid } = req.params
     try{
-        const user = await User.findById(uid)
         const post = await Post.findById(pid)
         if(!post) return res.status(404).json({mssg: 'Could not find post'})
-        if(!post.likes.includes(user.handle)) {
-            post.likes.push(user.handle)
+        if(!post.likes.includes(uid)) {
+            post.likes.push(uid)
             post.save()
         }
         res.status(200).json({mssg: 'success'})
@@ -100,11 +101,10 @@ const unlikePost = async (req, res) => {
     const uid = req.user
     const { pid } = req.params
     try{
-        const user = await User.findById(uid)
         const post = await Post.findById(pid)
-        if(!post) return res.status(404).json({mssg: 'Could not find post'})
-        if(post.likes.includes(user.handle)) {
-            post.likes = post.likes.filter(handle => handle !== user.handle)
+        if(!post) return res.status(404).json({mssg: 'failed', error: 'Could not find post'})
+        if(post.likes.includes(uid)) {
+            post.likes = post.likes.filter(id => id !== uid)
             post.save()
         }
         res.status(200).json({mssg: 'success'})
@@ -122,7 +122,12 @@ const getPostsByUser = async (req, res) => {
         const user = await User.findOne({handle})
         if(!user) return res.json({mssg: 'Success', data: {posts: [], NFTS: []}})
         const posts = await Post.find({user: user._id}).populate({path: 'comments', populate: {path: 'user'}}).populate('user').sort({createdAt: -1})
-        return res.json({mssg: 'Success', data: {posts, NFTS: []}})
+        if(!user.address) return res.json({mssg: 'Success', data: {posts, NFTS: []}})
+        const NFTS = await Moralis.EvmApi.nft.getWalletNFTs({
+            address: user.address,
+            chain: EvmChain.ETHEREUM,
+        });
+        return res.json({mssg: 'Success', data: {posts, NFTS}})
     }
     catch(error){
         console.log(error)

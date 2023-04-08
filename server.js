@@ -1,5 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const Moralis = require("moralis").default;
+const { EvmChain } = require("@moralisweb3/common-evm-utils");
 const cors = require('cors')
 const fbadmin = require('./config/firebase-config')
 const PostRoute = require('./Routes/PostRoute')
@@ -16,8 +18,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 
 app.use((req, res, next) => {
-    console.log(`${new Date().toLocaleTimeString()}  ${req.path}  ${req.method}`)
     next()
+    console.log(`${new Date().toLocaleTimeString()} ${req.path} ${req.method} ${res.statusCode}`)
 })
 
 app.use(async (req, res, next) => {
@@ -45,8 +47,12 @@ const run = async () => {
     try{
         mongoose.set('strictQuery', false)
         await mongoose.connect(process.env.MONGO_URL);
+        console.log(process.env.MORALIS_API_KEY)
+        await Moralis.start({
+            apiKey: process.env.MORALIS_API_KEY,
+        });
         app.listen(process.env.PORT, () => {
-            console.log('connected to mongodb & listening on port', process.env.PORT)
+            console.log('connected to MongoDB, Moralis & listening on port', process.env.PORT)
         })
     } 
     catch(error) {

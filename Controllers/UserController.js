@@ -126,6 +126,8 @@ const connectWalletToUser = async (req, res) => {
     const { address } = req.body
     try{
         const user = await User.findById(uid)
+        if(user.address && user.updatedAt + (24 * 60 * 60 * 1000) < new Date())
+            return res.status(400).json({mssg: 'failed', error: 'It has already been 24 hours since the wallet was connected. Please contact customer support to change wallets.'})
         user.address = address
         await user.save()
         return res.status(200).json({mssg: 'success'})
