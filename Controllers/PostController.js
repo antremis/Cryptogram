@@ -59,7 +59,9 @@ const makePost = async (req, res) => {
     try{
         const user = await User.findById(uid)
         if(!user) return res.status(404).json({mssg: 'User Not Found'})
-        const imgsrc = await uploadImage(file)
+        let imgsrc
+        if(file) imgsrc = await uploadImage(file)
+        else imgsrc = req.body.imgsrc
         const hashtags = await handleHashtags(caption, imgsrc)
         const newPost = await Post.create({
             imgsrc,
