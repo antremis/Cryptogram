@@ -130,11 +130,11 @@ const getPostsByUser = async (req, res) => {
         if(!user) return res.json({mssg: 'Success', data: {posts: [], NFTS: []}})
         const posts = await Post.find({user: user._id}).populate({path: 'comments', populate: {path: 'user'}}).populate('user').sort({createdAt: -1})
         if(!user.address) return res.json({mssg: 'Success', data: {posts, NFTS: []}})
-        const res = await Moralis.EvmApi.nft.getWalletNFTs({
+        const response = await Moralis.EvmApi.nft.getWalletNFTs({
             address: user.address,
             chain: EvmChain.ETHEREUM,
         });
-        const NFTS = res.result.map(nft => {
+        const NFTS = response.result.map(nft => {
             const metadata = JSON.parse(nft.metadata);
             const imageUrl = metadata.image;
             return { ...nft, imageUrl };
