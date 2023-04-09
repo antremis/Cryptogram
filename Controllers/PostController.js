@@ -116,10 +116,10 @@ const unlikePost = async (req, res) => {
 
 function convertLink(link) {
     const isIPFS = link.startsWith('ipfs://');
-    if (!isIPFS) return [link]
+    if (!isIPFS) return {isIPFS, links: [link]}
     const cid = link.replace('ipfs://', '');
     const infuraLink = `https://ipfs.infura.io/ipfs/${cid}`;
-    return [link, infuraLink];
+    return {isIPFS, links: [link, infuraLink]};
 }
 
 const getPostsByUser = async (req, res) => {
@@ -135,9 +135,19 @@ const getPostsByUser = async (req, res) => {
             chain: EvmChain.ETHEREUM,
         });
         const NFTS = response.result.map(nft => {
-            const metadata = JSON.parse(nft.metadata);
-            const imageUrl = metadata.image;
-            return { ...nft, imageUrl };
+            console.log(nft.metadata)
+            if(!nft.metadata) return {
+                _id: v4(),
+                isIPFS: false,
+                imgsrc: links[1]
+            }
+            const imageUrl = nft.metadata.image
+            let {isIPFS, links} = convertLink(imageUrl)
+            return {
+                _id: v4(),
+                isIPFS,
+                imgsrc: links[1]
+            }
         });
         return res.json({mssg: 'Success', data: {posts, NFTS}})
     }

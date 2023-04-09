@@ -36,9 +36,9 @@ const getUsers = async (req, res) => {
         const uid = req.user
         const {query} = req.body
         console.log(query)
-        const user = await User.find({handle: { $regex: query, $options: 'i' }})
-        if(!user) return res.status(200).json({mssg: 'User not found', data: {NFTS: 0, displayName: 'No User Found', handle: 'NotFound', posts: 0, profilePic: 'https://i.postimg.cc/GpnxRzT5/profile-user.png', id: 'null', followers: [], following: []}})
-        res.status(200).json({mssg: 'success', data: user})
+        const users = await User.find({handle: { $regex: query, $options: 'i' }})
+        if(!user) return res.status(200).json({mssg: 'User not found', data: []})
+        res.status(200).json({mssg: 'success', data: users})
     }
     catch(e){
         console.log(e.message)
@@ -67,7 +67,7 @@ const getUser = async (req, res) => {
 const followUser = async (req, res) => {
     try{
         const uid = req.user
-        const {handle} = req.body
+        const {handle} = req.params
         const user1 = await User.findById(uid)
         const user2 = await User.findOne({handle})
         if(user1.following.includes(user2._id)) return res.status(200).json({mssg: 'user is already followed'})

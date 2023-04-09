@@ -47,7 +47,6 @@ const run = async () => {
     try{
         mongoose.set('strictQuery', false)
         await mongoose.connect(process.env.MONGO_URL);
-        console.log(process.env.MORALIS_API_KEY)
         await Moralis.start({
             apiKey: process.env.MORALIS_API_KEY,
         });

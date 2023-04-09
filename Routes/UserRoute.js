@@ -11,12 +11,12 @@ const {
 
 router.route('/')
     .get(getOrCreateUser)
-    .put(followUser)
     .post(getUsers)
 router.route('/connect')
     .post(connectWalletToUser)
 router.route('/:handle')
     .get(getUser)
+    .put(followUser)
     .patch(updateUser)
     .delete(unfollowUser)
 
