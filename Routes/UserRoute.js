@@ -16,8 +16,8 @@ router.route('/connect')
     .post(connectWalletToUser)
 router.route('/:handle')
     .get(getUser)
-    .put(followUser)
     .patch(updateUser)
+    .put(followUser)
     .delete(unfollowUser)
 
 module.exports = router

@@ -35,9 +35,7 @@ const getUsers = async (req, res) => {
     try{
         const uid = req.user
         const {query} = req.body
-        console.log(query)
         const users = await User.find({handle: { $regex: query, $options: 'i' }})
-        if(!user) return res.status(200).json({mssg: 'User not found', data: []})
         res.status(200).json({mssg: 'success', data: users})
     }
     catch(e){
