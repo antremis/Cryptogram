@@ -118,7 +118,7 @@ function convertLink(link) {
     const isIPFS = link.startsWith('ipfs://');
     if (!isIPFS) return {isIPFS, links: [link]}
     const cid = link.replace('ipfs://', '');
-    const infuraLink = `https://ipfs.infura.io/ipfs/${cid}`;
+    const infuraLink = `https://ipfs.io/ipfs/${cid}`;
     return {isIPFS, links: [link, infuraLink]};
 }
 
@@ -135,18 +135,17 @@ const getPostsByUser = async (req, res) => {
             chain: EvmChain.ETHEREUM,
         });
         const NFTS = response.result.map(nft => {
-            console.log(nft.metadata)
             if(!nft.metadata) return {
                 _id: v4(),
                 isIPFS: false,
-                imgsrc: links[1]
+                imgsrc: "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"
             }
             const imageUrl = nft.metadata.image
             let {isIPFS, links} = convertLink(imageUrl)
             return {
                 _id: v4(),
                 isIPFS,
-                imgsrc: links[1]
+                imgsrc: isIPFS ? links[1] : links[0]
             }
         });
         return res.json({mssg: 'Success', data: {posts, NFTS}})
