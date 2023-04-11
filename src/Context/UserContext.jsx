@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
+import Web3 from 'web3'
 import {useAuthContext} from './AuthContext'
 import { notify } from '../Components/Alert';
 import axios from 'axios'
@@ -43,7 +44,7 @@ const UserContextProvider = ({ children }) => {
         const baseurl = import.meta.env.VITE_BACKEND_URL
         try{
             if(followed) await axios.delete(`${baseurl}/api/user/${handle}`, {headers: {authorisation: `Bearer ${token}`}})
-            else await axios.put(`${baseurl}/api/user`, {handle}, {headers: {authorisation: `Bearer ${token}`}})
+            else await axios.put(`${baseurl}/api/user/${handle}`, {}, {headers: {authorisation: `Bearer ${token}`}})
             callback()
         }
         catch(error){
@@ -72,6 +73,34 @@ const UserContextProvider = ({ children }) => {
         }
     }
 
+    const connectWalletToUser = async () => {
+        if(window.ethereum){
+            const provider = new Web3(window.ethereum)
+            const accounts = await provider.eth.requestAccounts()
+            // create some sort of confirmation
+            // if(!confirmation()){
+            //     notify({
+            //         alert: "Cancelled wallet connection",
+            //         type: 'info'
+            //     })
+            //     return
+            // }
+            const baseurl = import.meta.env.VITE_BACKEND_URL
+            try{
+                await axios.post(`${baseurl}/api/user/connect`, {address: accounts[0]}, {headers: {authorisation: `Bearer ${token}`}})
+            }
+            catch(error){
+                notify({
+                    alert: error.message,
+                    type: 'error'
+                })
+            }
+        }
+        else{
+            notify("please install metamask")
+        }
+    }
+
     useEffect(() => {
         (async function (){
             setLoading(true)
@@ -96,7 +125,7 @@ const UserContextProvider = ({ children }) => {
     }, [user])
 
 	return (
-		<UserContext.Provider value={{ profile, getUsers, getUser, followOrUnfollowUser, updateUser }}>
+		<UserContext.Provider value={{ profile, getUsers, getUser, followOrUnfollowUser, updateUser, connectWalletToUser }}>
 			{loading ? <h1>LOADING USER</h1> : children}
 		</UserContext.Provider>
 	);

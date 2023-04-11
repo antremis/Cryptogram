@@ -8,7 +8,7 @@ import FAVORITE from '../assets/favorite.png'
 
 const Profile = () => {
 
-    const { profile, getUser, followOrUnfollowUser, updateUser } = useUserContext()
+    const { profile, getUser, followOrUnfollowUser, updateUser, connectWalletToUser } = useUserContext()
     const { handle } = useParams()
     const navigate = useNavigate()
     const [ userProfile, setUserProfile ] = useState({})
@@ -118,6 +118,15 @@ const Profile = () => {
                         <div className="row-3">
                             <p>{userProfile?.description ? userProfile?.description : 'No description'}</p>
                         </div>
+                        {
+                            handle == profile?.handle
+                            ? (
+                                <div className = 'row-4'>
+                                    <p onClick={connectWalletToUser} >Connect a Wallet</p>
+                                </div>
+                            )
+                            : null
+                        }
                     </div>
                 </div>
                 <div className="divider"></div>
