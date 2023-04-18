@@ -73,7 +73,7 @@ const PostContextProvider = ({children}) => {
         
     }
 
-    const listNFT = async (tokenId, _id) => {
+    const listNFT = async (tokenId, id) => {
         try{
             const price = prompt('Price in ETH')
             if(!price) throw new Error('No price entered')
@@ -81,7 +81,7 @@ const PostContextProvider = ({children}) => {
             if(wei <= 0) throw new Error('Price needs to be greater than 0')
             contract.methods.listNFT(tokenId, wei).send()
             const baseurl = import.meta.env.VITE_BACKEND_URL
-            axios.put(`${baseurl}/api/market`, {_id, price: Number(price)}, {headers: {authorisation: `Bearer ${token}`}})
+            axios.put(`${baseurl}/api/market`, {_id: id, price: Number(price)}, {headers: {authorisation: `Bearer ${token}`}})
         }
         catch(error){
             notify({

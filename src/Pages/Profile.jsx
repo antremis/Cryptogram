@@ -147,7 +147,7 @@ const Profile = () => {
                                         <div className='options-wrapper'>
                                             <img src={UPLOAD} onClick={() => {}}/>
                                             <img src={REMOVE} onClick={() => {}}/>
-                                            <img src={SELL} onClick={() => listNFT(post.tokenId)}/>
+                                            <img src={SELL} onClick={() => listNFT(post.tokenId, post._id)}/>
                                         </div>
                                     </div>
                                 ))

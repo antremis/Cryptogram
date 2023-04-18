@@ -92,7 +92,11 @@ const PostContent = ({setData, profileimg, displayName, handle, imgsrc, likes, c
                 ? <div onClick = {(e) => {e.target.parentElement.requestSubmit()}} id='add-post-submit'>Post</div>
                 : null
             }
-            <input type='checkbox' name='nft' onChange={handleCheckboxChange}/>
+            {
+                post
+                ? <input type='checkbox' name='nft' onChange={handleCheckboxChange}/>
+                : null
+            }
         </>
     )
 }
