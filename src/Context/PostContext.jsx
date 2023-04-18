@@ -109,7 +109,7 @@ const PostContextProvider = ({children}) => {
         const baseurl = import.meta.env.VITE_BACKEND_URL
         try{
             if(listitem.owner) await contract.methods.cancelListing(listitem.tokenId).send()
-            else await contract.methods.buyNFT(listitem.tokenId).send({value: web3.utils.toWei(listitem.price)})
+            else await contract.methods.buyNFT(listitem.tokenId).send({value: web3.utils.toWei(String(listitem.price))})
             await axios.delete(`${baseurl}/api/market/${listitem._id}`, {headers: {authorisation: `Bearer ${token}`}})
         }
         catch(error){
