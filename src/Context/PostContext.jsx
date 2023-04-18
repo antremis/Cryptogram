@@ -108,8 +108,8 @@ const PostContextProvider = ({children}) => {
     const buyNFTorUnlist = async (listitem) => {
         const baseurl = import.meta.env.VITE_BACKEND_URL
         try{
-            if(listitem.owner) contract.methods.cancelListing(listitem.tokenId).send()
-            else contract.methods.buyNFT(listitem.tokenId).send()
+            if(listitem.owner) await contract.methods.cancelListing(listitem.tokenId).send()
+            else await contract.methods.buyNFT(listitem.tokenId).send({value: web3.utils.toWei(listitem.price)})
             await axios.delete(`${baseurl}/api/market/${listitem._id}`, {headers: {authorisation: `Bearer ${token}`}})
         }
         catch(error){
