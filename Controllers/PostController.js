@@ -5,6 +5,7 @@ const admin = require('../config/firebase-config')
 const {v4} = require('uuid')
 const Moralis = require("moralis").default;
 const { EvmChain } = require("@moralisweb3/common-evm-utils");
+const axios = require('axios')
 
 const uploadImage = async (file) => {
     try {
@@ -118,8 +119,8 @@ function convertLink(link) {
     const isIPFS = link.startsWith('ipfs://');
     if (!isIPFS) return {isIPFS, links: [link]}
     const cid = link.replace('ipfs://', '');
-    const infuraLink = `https://ipfs.io/ipfs/${cid}`;
-    return {isIPFS, links: [link, infuraLink]};
+    const gatewaylink = `https://ipfs.io/ipfs/${cid}`;
+    return {isIPFS, links: [link, gatewaylink]};
 }
 
 const getPostsByUser = async (req, res) => {
@@ -132,22 +133,29 @@ const getPostsByUser = async (req, res) => {
         if(!user.address) return res.json({mssg: 'Success', data: {posts, NFTS: []}})
         const response = await Moralis.EvmApi.nft.getWalletNFTs({
             address: user.address,
-            chain: EvmChain.ETHEREUM,
+            chain: EvmChain.SEPOLIA,
         });
         const NFTS = response.result.map(nft => {
             if(!nft.metadata) return {
                 _id: v4(),
                 isIPFS: false,
-                imgsrc: "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"
+                imgsrc: "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930",
+                tokenId: -1
             }
             const imageUrl = nft.metadata.image
             let {isIPFS, links} = convertLink(imageUrl)
             return {
-                _id: v4(),
+                symbol: nft.symbol,
+                name: nft.name,
+                _id: `${nft.symbol}${nft.tokenId}`,
                 isIPFS,
-                imgsrc: isIPFS ? links[1] : links[0]
+                imgsrc: isIPFS ? links[1] : links[0],
+                tokenId: nft.tokenId
             }
         });
+        // const result = await axios.get(`https://api.opensea.io/api/v1/assets?owner=${user.address}&order_direction=desc&offset=0&limit=50&include_orders=false`)
+        // console.log(result[0])
+
         return res.json({mssg: 'Success', data: {posts, NFTS}})
     }
     catch(error){

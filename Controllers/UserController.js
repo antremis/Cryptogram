@@ -136,6 +136,24 @@ const connectWalletToUser = async (req, res) => {
     }
 }
 
+const getResourceForUser = async (req, res) => {
+    const { uid } = req.user
+    const { handle, resource } = req.params
+    try{
+        const user = await User.findOne({handle}).lean()
+        if(!user) return res.status(404).json({mssg: 'failed', error: 'user not found'})
+        let data
+        if(resource === 'following'){
+            data = await Promise.all(user.following.map(u => User.findById(u).select({_id: 0, handle: 1, displayName: 1, profilepic: 1}).lean()))
+        }
+        return res.status(200).json({mssg: 'success', data})
+    }
+    catch(e){
+        console.log(e.message)
+        return res.status(500).json({mssg: 'Internal Error', error: e.message})
+    }
+}
+
 module.exports = {
     getOrCreateUser,
     followUser,
@@ -144,4 +162,5 @@ module.exports = {
     getUsers,
     updateUser,
     connectWalletToUser,
+    getResourceForUser,
 }
