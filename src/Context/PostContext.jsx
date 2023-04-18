@@ -14,7 +14,7 @@ const PostContextProvider = ({children}) => {
     const {profile} = useUserContext()
     const web3 = new Web3(window.ethereum)
     const contract = new web3.eth.Contract(ABI.abi, '0x384Db1566401b319051336eedeB9F2DC869c089d', {
-        from: profile.address, // default from address
+        from: profile?.address, // default from address
         // gasPrice: '0' // default gas price in wei, 20 gwei in this case
     });
 

@@ -75,7 +75,7 @@ const UserContextProvider = ({ children }) => {
 
     const connectWalletToUser = async () => {
         if(window.ethereum){
-            // const provider = new Web3(window.ethereum)
+            const provider = new Web3(window.ethereum)
             // const provider = new Web3(new Web3.providers.HttpProvider('https://rpc.sepolia-testnet.org'))
             const accounts = await provider.eth.requestAccounts()
             if(!confirm('Only one wallet wallet can be connected to an account.\nThe wallets can only be changed within 24hrs of first connection request.\nProceed?')){
