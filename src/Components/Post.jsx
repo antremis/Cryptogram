@@ -34,9 +34,17 @@ const PostContent = ({setData, profileimg, displayName, handle, imgsrc, likes, c
             imgref.current.src = event.target.result
         }
         reader.readAsDataURL(e.target.files[0]);
-        setData(e.target.files[0], (event) => {
-            event.target.result = null
+        setData(e.target.files[0], () => {
+            e.target.result = null
         })
+    }
+
+    const handleCheckboxChange = (e) => {
+        if(e.target.checked){
+            if(!confirm('Checking this will turn this post into an NFT and will cost ETH.\nContinue?'))
+                e.target.checked = false
+            
+        }
     }
 
     return(
@@ -56,7 +64,7 @@ const PostContent = ({setData, profileimg, displayName, handle, imgsrc, likes, c
             {
                 post
                 ? <><label htmlFor='fileupload'><img src={StockImg} id='add-post' ref={imgref}/></label>
-                <input type="file" id='fileupload' name='fileupload' onChange={handleImgUpload}/></>
+                <input type="file" id='fileupload' name='fileupload' accept='image/*' onChange={handleImgUpload}/></>
                 : <img src={imgsrc} />
             }
             <div className='post-likes-wrapper'>
@@ -84,13 +92,14 @@ const PostContent = ({setData, profileimg, displayName, handle, imgsrc, likes, c
                 ? <div onClick = {(e) => {e.target.parentElement.requestSubmit()}} id='add-post-submit'>Post</div>
                 : null
             }
+            <input type='checkbox' name='nft' onChange={handleCheckboxChange}/>
         </>
     )
 }
 
 const Post = ({profileimg, displayName, handle, imgsrc, likes, caption, post, closeModal, liked, pid}) => {
 
-    const {makePost} = usePostContext()
+    const {makePost, makeNFT} = usePostContext()
     let data, clearImg
 
     const setData = (val, callback) => {
@@ -102,7 +111,8 @@ const Post = ({profileimg, displayName, handle, imgsrc, likes, caption, post, cl
         e.preventDefault()
         const caption = e.target.caption.value
         e.target.caption.value = ''
-        makePost(caption, data)
+        if(!e.target.nft.checked) makePost(caption, data)
+        else makeNFT(caption, data)
         clearImg()
         data = null
         closeModal()

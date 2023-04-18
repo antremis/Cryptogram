@@ -1,0 +1,54 @@
+.marketplace{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4rem;
+    padding: 0 10rem;
+    place-items: center;
+}
+
+
+.marketplace > .listeditem-wrapper {
+    width: 100%;
+    object-fit: contain;
+    cursor: pointer;
+    border-radius: 1rem;
+    -webkit-border-radius: 1rem;
+    -moz-border-radius: 1rem;
+    -ms-border-radius: 1rem;
+    -o-border-radius: 1rem;
+    position: relative;
+    isolation: isolate;
+}
+
+.marketplace > .listeditem-wrapper:hover .options-wrapper {
+    display: flex;
+}
+
+.marketplace > .listeditem-wrapper > img {
+    width: 100%;
+}
+
+.marketplace > .listeditem-wrapper > .options-wrapper {
+    position: absolute;
+    justify-content: space-between;
+    display: none;
+    font-size: 3rem;
+    font-weight: 600;
+    background-color: rgba(0, 0, 0, 0.5);
+    inset: 0;
+    padding: 10%;
+    align-items: center;
+    z-index: 1;
+}
+
+.marketplace > .listeditem-wrapper > .options-wrapper > img {
+    width: 4rem;
+}
+
+.marketplace > p {
+    width: fit-content;
+    margin: 5rem auto;
+    font-size: 3rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}

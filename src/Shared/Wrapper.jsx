@@ -49,7 +49,7 @@ const Wrapper = ({Child, data}) => {
                 <NavItems src={LOGO} link = {'/'} />
                 <NavItems src={SEARCH} action={() => {searchref.current.showModal()}}/>
                 <NavItems src={EXPLORE} link = {'/explore'} />
-                <NavItems src={MARKETPLACE} />
+                <NavItems src={MARKETPLACE} link = {'/market'} />
                 <NavItems src={NFT} />
                 <NavItems src={PROFILE} link = {`/profile/${profile?.handle}`} />
                 <NavItems src={LOGOUT} action={signOut} />

@@ -2,13 +2,16 @@ import {useState, useEffect} from 'react'
 import { notify } from '../Components/Alert'
 import {useChatContext} from '../Context/ChatContext'
 import {useUserContext} from '../Context/UserContext'
+import {io} from 'socket.io-client'
 import './Chat.css'
 
 const Chat = () => {
-    const {recomended, chats, createChat, getMessages, sendMessage} = useChatContext()
+    const {getResource, chats, createChat, getMessages, sendMessage} = useChatContext()
     const {profile} = useUserContext()
     const [chatUser, setChatUser] = useState(null)
     const [messages, setMessages] = useState([])
+    const [following, setFollowing] = useState([])
+    const [socket, setSocket] = useState(null)
 
     const handleChatUserClicked = (chat) => {
         setChatUser(chat);
@@ -24,8 +27,28 @@ const Chat = () => {
         (async function (){
             const MESSAGES = await getMessages(chatUser._id)
             setMessages(MESSAGES)
+            socket.emit('join', chatUser._id)
         })()
+        return () => {
+            socket.emit('leave', chatUser._id)
+        }
     }, [chatUser])
+
+    useEffect(() => {
+        let s
+        (async function (){
+            const fol = await getResource('following')
+            setFollowing(fol)
+            s = io(`${import.meta.env.VITE_BACKEND_URL}`)
+            s.on('message', (msg_object) => {
+                setMessages(prev => [msg_object, ...prev])
+            })
+            setSocket(s)
+        })()
+        return () => {
+            s.disconnect()
+        }
+    }, [])
 
     const handleMessageSend = async (e) => {
         e.preventDefault()
@@ -41,6 +64,7 @@ const Chat = () => {
             }
             setMessages(prev => [msg_object, ...prev])
             e.target.message.value = ''
+            socket.emit('message', chatUser._id, msg_object)
         }
         catch(e){
             notify({
@@ -67,10 +91,10 @@ const Chat = () => {
                     : null
                 }
                 {
-                    profile?.following.length != 0
+                    following?.length != 0
                     ? <div className='recomended'>
                         <p>Recomended</p>
-                        {profile?.following.map((user) => (
+                        {following?.map((user) => (
                             <div className='user-wrapper' key = {user.handle} onClick = {() => {handleCreateChat(user)}}>
                                 <img src = {user.profilepic} />
                                 <div className="user-name-wrapper">
@@ -80,7 +104,12 @@ const Chat = () => {
                             </div>
                         ))}
                     </div>
-                    : <p>Follow users to chat!</p>
+                    : null
+                }
+                {
+                    following?.length == 0 && chats?.length == 0
+                    ? <p>Follow users to chat</p>
+                    : null
                 }
             </div>
             <div className="divider"></div>
@@ -96,8 +125,8 @@ const Chat = () => {
                         </div>
                         <div className="messages-wrapper">
                             {
-                                messages.length != 0
-                                ? messages.map(message => (
+                                messages?.length != 0
+                                ? messages?.map(message => (
                                     <p key = {message._id} className={`message${message.user.displayName === profile.displayName?' self':''}`}>{message.message}</p>
                                 ))
                                 : null

@@ -6,6 +6,7 @@ import {useAuthContext} from '../Context/AuthContext'
 import Dashboard from "../Pages/Dashboard";
 import Profile from "../Pages/Profile";
 import Explore from "../Pages/Explore";
+import Marketplace from "../Pages/Marketplace";
 
 export const RootRouter = () => {
     const {user} = useAuthContext()
@@ -20,6 +21,7 @@ export const RootRouter = () => {
                     <Route exact path="/chat" element={<Wrapper Child={Chat}/>} />
                     <Route exact path="/explore" element={<Wrapper Child={Explore}/>} />
                     <Route exact path="/explore/:hashtag" element={<Wrapper Child={Dashboard} />} />
+                    <Route exact path="/market" element={<Wrapper Child={Marketplace}/>} />
                     <Route exact path="/profile/:handle" element={<Wrapper Child={Profile}/>} />
                 </Routes>)
                 : (<Routes>

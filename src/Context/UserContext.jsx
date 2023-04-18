@@ -43,8 +43,8 @@ const UserContextProvider = ({ children }) => {
     const followOrUnfollowUser = async (handle, followed, callback) => {
         const baseurl = import.meta.env.VITE_BACKEND_URL
         try{
-            if(followed) await axios.delete(`${baseurl}/api/user/${handle}`, {headers: {authorisation: `Bearer ${token}`}})
-            else await axios.put(`${baseurl}/api/user/${handle}`, {}, {headers: {authorisation: `Bearer ${token}`}})
+            if(followed) await axios.delete(`${baseurl}/api/user/${handle}/follow`, {headers: {authorisation: `Bearer ${token}`}})
+            else await axios.put(`${baseurl}/api/user/${handle}/follow`, {}, {headers: {authorisation: `Bearer ${token}`}})
             callback()
         }
         catch(error){
@@ -75,19 +75,19 @@ const UserContextProvider = ({ children }) => {
 
     const connectWalletToUser = async () => {
         if(window.ethereum){
-            const provider = new Web3(window.ethereum)
+            // const provider = new Web3(window.ethereum)
+            // const provider = new Web3(new Web3.providers.HttpProvider('https://rpc.sepolia-testnet.org'))
             const accounts = await provider.eth.requestAccounts()
-            // create some sort of confirmation
-            // if(!confirmation()){
-            //     notify({
-            //         alert: "Cancelled wallet connection",
-            //         type: 'info'
-            //     })
-            //     return
-            // }
+            if(!confirm('Only one wallet wallet can be connected to an account.\nThe wallets can only be changed within 24hrs of first connection request.\nProceed?')){
+                notify({
+                    alert: "Cancelled wallet connection",
+                    type: 'info'
+                })
+                return
+            }
             const baseurl = import.meta.env.VITE_BACKEND_URL
             try{
-                await axios.post(`${baseurl}/api/user/connect`, {address: accounts[0]}, {headers: {authorisation: `Bearer ${token}`}})
+                await axios.post(`${baseurl}/api/user/${profile.handle}/connect`, {address: accounts[0]}, {headers: {authorisation: `Bearer ${token}`}})
             }
             catch(error){
                 notify({

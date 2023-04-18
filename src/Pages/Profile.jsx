@@ -5,6 +5,9 @@ import { usePostContext } from '../Context/PostContext'
 import './Profile.css'
 import CHAT from '../assets/chat.png'
 import FAVORITE from '../assets/favorite.png'
+import UPLOAD from '../assets/upload.png'
+import REMOVE from '../assets/remove.png'
+import SELL from '../assets/sell.png'
 
 const Profile = () => {
 
@@ -12,12 +15,11 @@ const Profile = () => {
     const { handle } = useParams()
     const navigate = useNavigate()
     const [ userProfile, setUserProfile ] = useState({})
-    const { getPostsByUser } = usePostContext()
+    const { getPostsByUser, listNFT } = usePostContext()
     const [ posts, setPosts ] = useState({posts: [], NFTS: []})
     const [ NFTS, setNFTS ] = useState(false)
     const [edit, setEdit] = useState(false)
     const toggleRef = useRef()
-    const display_posts = NFTS ? posts.NFTS : posts.posts
 
     const togglePosts = (val) => {
         setNFTS(val)
@@ -137,11 +139,30 @@ const Profile = () => {
                     </div>
                     <div className="posts-display-wrapper">
                         {
-                            display_posts.length != 0
-                            ? display_posts.map(post => (
-                                <img key = {post._id} src={post.imgsrc}/>
-                            ))
-                            : <p>No posts!</p>
+                            NFTS 
+                            ? posts?.NFTS?.length > 0
+                                ? posts.NFTS.map(post => (
+                                    <div className="posts-wrapper" key = {post._id}>
+                                        <img src={post.imgsrc}/>
+                                        <div className='options-wrapper'>
+                                            <img src={UPLOAD} onClick={() => {}}/>
+                                            <img src={REMOVE} onClick={() => {}}/>
+                                            <img src={SELL} onClick={() => listNFT(post.tokenId)}/>
+                                        </div>
+                                    </div>
+                                ))
+                                : <p>No posts!</p>
+                            : posts?.posts?.length > 0
+                                ? posts.posts.map(post => (
+                                    <div className="posts-wrapper" key = {post._id}>
+                                        <img src={post.imgsrc}/>
+                                        <div className='options-wrapper'>
+                                            <img src={UPLOAD} onClick={() => {}}/>
+                                            <img src={REMOVE} onClick={() => {}}/>
+                                        </div>
+                                    </div>
+                                ))
+                                : <p>No posts!</p>
                         }
                     </div>
                 </div>

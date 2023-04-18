@@ -1,8 +1,10 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from 'axios'
+import Web3 from 'web3'
 import { notify } from "../Components/Alert";
 import {useUserContext} from './UserContext'
 import { useAuthContext } from "./AuthContext";
+import ABI from '../MarketContract/CryptogramMarket.json'
 
 const PostContext = createContext();
 
@@ -10,6 +12,11 @@ const PostContextProvider = ({children}) => {
     const [ posts, setPosts ] = useState([])
     const {user, token} = useAuthContext()
     const {profile} = useUserContext()
+    const web3 = new Web3(window.ethereum)
+    const contract = new web3.eth.Contract(ABI.abi, '0x384Db1566401b319051336eedeB9F2DC869c089d', {
+        from: profile.address, // default from address
+        // gasPrice: '0' // default gas price in wei, 20 gwei in this case
+    });
 
     const makePost = async (caption, data) => {
         const baseurl = import.meta.env.VITE_BACKEND_URL
@@ -42,6 +49,75 @@ const PostContextProvider = ({children}) => {
                     type: 'error'
                 })
             })
+    }
+
+    const makeNFT = async (caption, data) => {
+        const baseurl = import.meta.env.VITE_BACKEND_URL
+        const formData = new FormData()
+        formData.append('img', data)
+        formData.append('name', profile.displayName)
+        formData.append('description', caption)
+        try{
+            const res = await axios.put(`${baseurl}/api/market/create`, formData, {headers: {authorisation: `Bearer ${token}`}})
+            contract.methods.createNFT(res.data.data.url).send()
+        }
+        catch(error){
+            notify({
+                alert: error.message,
+                type: 'error'
+            })
+        }
+    }
+
+    const displayNFT = async () => {
+        
+    }
+
+    const listNFT = async (tokenId, _id) => {
+        try{
+            const price = prompt('Price in ETH')
+            if(!price) throw new Error('No price entered')
+            const wei = web3.utils.toWei(price)
+            if(wei <= 0) throw new Error('Price needs to be greater than 0')
+            contract.methods.listNFT(tokenId, wei).send()
+            const baseurl = import.meta.env.VITE_BACKEND_URL
+            axios.put(`${baseurl}/api/market`, {_id, price: Number(price)}, {headers: {authorisation: `Bearer ${token}`}})
+        }
+        catch(error){
+            notify({
+                alert: error.message,
+                type: 'error'
+            })
+        }
+    }
+
+    const getListedNFTs = async () => {
+        const baseurl = import.meta.env.VITE_BACKEND_URL
+        try{
+            const res = await axios.get(`${baseurl}/api/market`, {headers: {authorisation: `Bearer ${token}`}})
+            return res.data.data
+        }
+        catch(error){
+            notify({
+                alert: error.message,
+                type: 'error'
+            })
+        }
+    }
+
+    const buyNFTorUnlist = async (listitem) => {
+        const baseurl = import.meta.env.VITE_BACKEND_URL
+        try{
+            if(listitem.owner) contract.methods.cancelListing(listitem.tokenId).send()
+            else contract.methods.buyNFT(listitem.tokenId).send()
+            await axios.delete(`${baseurl}/api/market/${listitem._id}`, {headers: {authorisation: `Bearer ${token}`}})
+        }
+        catch(error){
+            notify({
+                alert: error.message,
+                type: 'error'
+            })
+        }
     }
 
     const likePost = async (pid, callback) => {
@@ -161,7 +237,7 @@ const PostContextProvider = ({children}) => {
     }
 
     return(
-        <PostContext.Provider value={{ posts, getPostsForUser, getPostsByUser, makePost, likePost, unlikePost, makeComment, getHashtags }}>
+        <PostContext.Provider value={{ posts, getPostsForUser, getPostsByUser, makePost, makeNFT, listNFT, displayNFT, getListedNFTs, buyNFTorUnlist, likePost, unlikePost, makeComment, getHashtags }}>
             {children}
         </PostContext.Provider>
     )

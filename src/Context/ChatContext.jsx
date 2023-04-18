@@ -2,6 +2,7 @@ import {useState, useEffect, useContext, createContext} from 'react'
 import axios from 'axios'
 import {useAuthContext} from './AuthContext'
 import { notify } from '../Components/Alert';
+import { useUserContext } from './UserContext';
 
 const ChatContext = createContext()
 
@@ -9,6 +10,7 @@ const ChatContextProvider = ({children}) => {
     const [chats, setChats] = useState([])
     const [recomended, setRecomended] = useState([])
 	const {user, token} = useAuthContext();
+    const { profile } = useUserContext()
     const [loading, setLoading] = useState(true);
 
     const sendMessage = async (chatid, message) => {
@@ -61,6 +63,20 @@ const ChatContextProvider = ({children}) => {
         }
     }
 
+    const getResource = async (resource) => {
+        const baseurl = import.meta.env.VITE_BACKEND_URL
+        try{
+            const res = await axios.get(`${baseurl}/api/user/${profile.handle}/${resource}`, {headers: {authorisation: `Bearer ${token}`}})
+            return res.data.data
+        }
+        catch(error){
+            notify({
+                alert: error.message,
+                type: 'error'
+            })
+        }
+    }
+
     useEffect(() => {
         (async function (){
             setLoading(true)
@@ -86,7 +102,7 @@ const ChatContextProvider = ({children}) => {
     }, [])
 
     return(
-        <ChatContext.Provider value={{chats, createChat, getMessages, sendMessage}}>
+        <ChatContext.Provider value={{chats, createChat, getMessages, sendMessage, getResource}}>
             {loading ? <h1>LOADING CHAT</h1> : children}
         </ChatContext.Provider>
     )
