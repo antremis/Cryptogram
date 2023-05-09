@@ -26,6 +26,7 @@ const Alerts = () => {
     notify = (alert) => {
         alert.id = uuid()
         alert.remove = () => removeAlert(alert.id)
+        console.log(alert.alert)
         setAlerts(prev => {
             return [...prev, alert]
         })

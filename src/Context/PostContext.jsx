@@ -13,7 +13,7 @@ const PostContextProvider = ({children}) => {
     const {user, token} = useAuthContext()
     const {profile} = useUserContext()
     const web3 = new Web3(window.ethereum)
-    const contract = new web3.eth.Contract(ABI.abi, '0x384Db1566401b319051336eedeB9F2DC869c089d', {
+    const contract = new web3.eth.Contract(ABI.abi, '0xEBad0E21a8A8748fE2B0EfD1C61D97aBcB6026Fa', {
         from: profile?.address, // default from address
         // gasPrice: '0' // default gas price in wei, 20 gwei in this case
     });
@@ -108,11 +108,14 @@ const PostContextProvider = ({children}) => {
     const buyNFTorUnlist = async (listitem) => {
         const baseurl = import.meta.env.VITE_BACKEND_URL
         try{
-            if(listitem.owner) await contract.methods.cancelListing(listitem.tokenId).send()
-            else await contract.methods.buyNFT(listitem.tokenId).send({from: profile.address, value: web3.utils.toWei(String(listitem.price))})
+            let result
+            if(listitem.owner) result = await contract.methods.cancelListing(listitem.tokenId).send()
+            else result = await contract.methods.buyNFT(listitem.tokenId).send({from: profile.address, value: web3.utils.toWei(String(listitem.price))})
+            await result
             await axios.delete(`${baseurl}/api/market/${listitem._id}`, {headers: {authorisation: `Bearer ${token}`}})
         }
         catch(error){
+            console.log(error)
             notify({
                 alert: error.message,
                 type: 'error'
