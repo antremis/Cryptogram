@@ -6,7 +6,7 @@ const getAllChats = async (req, res) => {
     try{
         const uid = req.user
         const user = await User.findById(uid)
-        const chats = await Chat.find({users: {$in: [uid]}}).populate({path: 'users', select: {_id: 0, displayName: 1, profilepic: 1}})
+        const chats = await Chat.find({users: {$in: [uid]}}).populate({path: 'users', select: {_id: 0, displayName: 1, profilepic: 1, handle: 1}})
         // const recomended = await User.find({ _id:  {$in: user.following} })
         return res.status(200).json({mssg: "success", chats, recomended: []})
     }
@@ -64,7 +64,7 @@ const getMessages = async (req, res) => {
         const chatId = req.params.id
         const chat = await Chat.findById(chatId)
         if(!chat.users.includes(uid)) return res.status(403).json({mssg: 'Unauthorised'})
-        const messages = await Message.find({chatId}).select({chatId: 0, __v: 0}).populate({path: 'user', select:{_id: 0, displayName: 1, profilepic: 1}}).sort({createdAt: -1})
+        const messages = await Message.find({chatId}).select({chatId: 0, __v: 0}).populate({path: 'user', select:{_id: 0, displayName: 1, profilepic: 1, handle: 1}}).sort({createdAt: -1})
         return res.status(200).json({mssg: 'success', data: messages})
     }
     catch(e){

@@ -34,7 +34,7 @@ const createNFT = async (req, res) => {
 }
 
 const listNFT = async (req, res) => {
-    const {_id, price } = req.body
+    const { _id, price } = req.body
     try{
         await ListedItem.create({
             _id,
