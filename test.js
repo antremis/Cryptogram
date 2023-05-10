@@ -8,14 +8,16 @@ const user = {
 const run = async () => {
     try{
         // await mongoose.connect(process.env.MONGO_URL);
-        await mongoose.connect("mongodb+srv://admin:3PWjPmpJ9eOYks5L@cryptogram.vbpcyzz.mongodb.net/?retryWrites=true&w=majority");
+        await mongoose.connect("mongodb://localhost:27017/cryptogram");
         console.log("Connected to mongoose")
-        const result = await ListedItems.create({
-            _id: "CGM2",
-            price: 0.3,
-            owner: "yZZYD3DEOsRZgGKSGXanuGKnvXa2"
-        })
-        console.log(result)
+        await ListedItems.findByIdAndDelete('CGM1')
+        // const result = await ListedItems.create({
+        //     _id: "CGM3",
+        //     price: 0.1,
+        //     owner: "yZZYD3DEOsRZgGKSGXanuGKnvXa2",
+        // })
+        // console.log(result)
+        mongoose.disconnect()
     }
     catch(err){
         console.log(err.message)

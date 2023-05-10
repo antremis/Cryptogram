@@ -100,9 +100,10 @@ const getListedNFTs = async (req, res) => {
 const unlistNFT = async (req, res) => {
     const { _id } = req.params
     try{
-        const item = ListedItem.findById(_id)
+        const item = await ListedItem.findByIdAndDelete(_id)
+        console.log(`🚀 ~ file: MarketController.js:104 ~ item:`, item)
         // delete doc
-        res.status(200).json({mssg: 'success'})
+        // res.status(200).json({mssg: 'success'})
     }
     catch(error){
         console.log(error)
