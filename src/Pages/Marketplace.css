@@ -6,7 +6,6 @@
     place-items: center;
 }
 
-
 .marketplace > .listeditem-wrapper {
     width: 100%;
     object-fit: contain;
@@ -51,4 +50,34 @@
     font-size: 3rem;
     font-weight: 600;
     letter-spacing: 1px;
+}
+
+.carouselClass{
+    /* width: 100vw; */
+    padding: 5rem;
+}
+
+.search-bar{
+    background-color: white;
+    margin: 1rem 5rem 2rem;
+    width: 90%;
+    color: black;
+    padding: 0.8rem 2rem;
+    font-size: 1.4rem;
+    letter-spacing: 1px;;
+    border-radius: 2rem;
+    -webkit-border-radius: 2rem;
+    -moz-border-radius: 2rem;
+    -ms-border-radius: 2rem;
+    -o-border-radius: 2rem;
+}
+
+.marketplace-filters{
+    display: flex;
+    gap: 2rem;
+    margin: 0 5rem;
+}
+
+.marketplace-filter {
+    height: 3rem;
 }

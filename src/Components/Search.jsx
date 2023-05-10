@@ -30,7 +30,7 @@ const Search = ({ closeSearchModal }) => {
     }
 
     return (
-        <form className='search-wrapper' onClick={e=>e.stopPropagation()}>
+        <form className='search-wrapper' onClick={e=>e.stopPropagation()} onSubmit={e=>e.preventDefault()}>
             <div className="search-input-wrapper" ref={sref}>
                 <img src={SEARCH} />
                 <input type='text' placeholder='Search' onChange = {handleInput} />

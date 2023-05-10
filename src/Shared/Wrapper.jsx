@@ -50,7 +50,7 @@ const Wrapper = ({Child, data}) => {
                 <NavItems src={SEARCH} action={() => {searchref.current.showModal()}}/>
                 <NavItems src={EXPLORE} link = {'/explore'} />
                 <NavItems src={MARKETPLACE} link = {'/market'} />
-                <NavItems src={NFT} />
+                {/* <NavItems src={NFT} /> */}
                 <NavItems src={PROFILE} link = {`/profile/${profile?.handle}`} />
                 <NavItems src={LOGOUT} action={signOut} />
             </nav>
@@ -71,8 +71,8 @@ const Wrapper = ({Child, data}) => {
                     <NavItems src={QUICKCHAT} />
                 </nav>
                 <nav>
-                    <NavItems src={UPARROW} />
-                    <NavItems src={DOWNARROW} />
+                    <NavItems src={UPARROW} action={()=>{window.scrollBy(0, -(window.innerHeight))}}/>
+                    <NavItems src={DOWNARROW} action={()=>{window.scrollBy(0, window.innerHeight)}}/>
                 </nav>
             </nav>
         </div>

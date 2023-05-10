@@ -1,7 +1,9 @@
 import {usePostContext} from '../Context/PostContext'
 import './Post.css'
 import FAVORITE from '../assets/favorite.png'
+import FAVORITED from '../assets/favorited.png'
 import LIKE from '../assets/like.png'
+import LIKED from '../assets/liked.png'
 import SHARE from '../assets/share.png'
 import CommentContent from './CommentContent'
 import StockImg from '../assets/postStockImg.png'
@@ -47,6 +49,18 @@ const PostContent = ({setData, profileimg, displayName, handle, imgsrc, likes, c
         }
     }
 
+    const stared_ref = useRef(null)
+    const handleFav = (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        if(stared_ref.current.src.includes(FAVORITED))
+            stared_ref.current.src=FAVORITE
+        else
+            stared_ref.current.src=FAVORITED
+        console.log(`🚀 ~ file: Post.jsx:57 ~ FAVORITED:`, FAVORITED)
+        console.log(`🚀 ~ file: Post.jsx:57 ~ stared_ref.current.sr:`, stared_ref.current.src)
+    }
+
     return(
         <>
             <Link className='post-handle-wrapper' to={`/profile/${handle}`} >
@@ -58,7 +72,7 @@ const PostContent = ({setData, profileimg, displayName, handle, imgsrc, likes, c
                 {
                     post
                     ? null
-                    : <img src={FAVORITE} className='favorite' />
+                    : <img src={FAVORITE} ref={stared_ref} className='favorite' onClick={handleFav}/>
                 }
             </Link>
             {
@@ -76,7 +90,7 @@ const PostContent = ({setData, profileimg, displayName, handle, imgsrc, likes, c
                 <div className='post-likes-btns'>
                     {
                         liked
-                        ? <img src={LIKE} onClick={handleUnlike} />
+                        ? <img src={LIKED} onClick={handleUnlike} />
                         : <img src={LIKE} onClick={handleLike} />
                     }
                     <img src={SHARE} />

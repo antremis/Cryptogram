@@ -127,7 +127,7 @@ const Chat = () => {
                             {
                                 messages?.length != 0
                                 ? messages?.map(message => (
-                                    <p key = {message._id} className={`message${message.user.displayName === profile.displayName?' self':''}`}>{message.message}</p>
+                                    <p key = {message._id} className={`message${message.user.handle === profile.handle?' self':''}`}>{message.message}</p>
                                 ))
                                 : null
                             }
